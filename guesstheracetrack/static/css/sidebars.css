@@ -1,4 +1,5 @@
-body {
+.sidebar {
+  width: 320px;
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
