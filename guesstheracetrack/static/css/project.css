@@ -1,5 +1,14 @@
 /* These styles are generated from project.scss. */
 
+body {
+  height: 100%;
+  background: var(--bs-gray-dark)
+}
+
+h1, h2, h3 {
+  color: var(--bs-white);
+}
+
 .alert-debug {
   color: black;
   background-color: white;
