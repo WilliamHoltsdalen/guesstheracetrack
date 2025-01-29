@@ -79,8 +79,9 @@
       <main class="flex scroll">
         <!-- Sidebar -->
         {% include "sidebar.html" %}
-        <!-- Alert container -->
+        <!-- Main content container -->
         <div class="container">
+          <!-- Alerts -->
           {% if messages %}
             {% for message in messages %}
               <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -92,7 +93,9 @@
               </div>
             {% endfor %}
           {% endif %}
+          <!-- __Main content -->
           {% block main %}
+            <div class="container-sm bg-dark"></div>
             {% block content %}
               <p>Use this document as a way to quick start any new project.</p>
             {% endblock content %}

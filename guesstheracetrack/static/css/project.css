@@ -2,6 +2,11 @@
 
 body {
   height: 100%;
+  background: var(--bs-gray-dark)
+}
+
+h1, h2, h3 {
+  color: var(--bs-white);
 }
 
 .alert-debug {
