@@ -1,8 +1,18 @@
 # ruff: noqa: E501
+
+from pathlib import Path
+
 from .base import *  # noqa: F403
 from .base import INSTALLED_APPS
 from .base import MIDDLEWARE
 from .base import env
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Media files
+# ------------------------------------------------------------------------------
+MEDIA_URL = "/media/"
+MEDIA_ROOT = Path(BASE_DIR) / "guesstheracetrack" / "media"
 
 # GENERAL
 # ------------------------------------------------------------------------------
