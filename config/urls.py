@@ -9,7 +9,12 @@ from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path(
+        "",
+        TemplateView.as_view(template_name="landing_page/landing_page.html"),
+        name="landing_page",
+    ),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
@@ -21,6 +26,10 @@ urlpatterns = [
     path("users/", include("guesstheracetrack.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     path("games/", include("guesstheracetrack.games.urls", namespace="games")),
+    path(
+        "landing_page/",
+        include("guesstheracetrack.landing_page.urls", namespace="landing_page"),
+    ),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
