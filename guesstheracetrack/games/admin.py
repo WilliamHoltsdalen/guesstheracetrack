@@ -13,5 +13,5 @@ class RaceTrackAdmin(admin.ModelAdmin):
     )
     def image_preview(self, obj):
         if obj.image:
-            return format_html('<img src="{}" width="100px">', obj.image_url)
+            return format_html('<img src="{}" width="100px">', obj.image.url)
         return "(No image)"
