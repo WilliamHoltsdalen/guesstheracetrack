@@ -1,5 +1,6 @@
 # ruff: noqa: E501
 
+from .base import *  # noqa: F403 (Necessary for manage.py settings setup)
 from .base import INSTALLED_APPS
 from .base import MIDDLEWARE
 from .base import TEMPLATES
