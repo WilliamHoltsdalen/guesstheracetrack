@@ -1,17 +1,15 @@
-from pathlib import Path
-
 from django.shortcuts import render
 
-from guesstheracetrack.config import settings
+from .models import RaceTrack
 
 
 def home(request):
-    """Send the image from media to the template"""
-    image_path = Path(settings.MEDIA_ROOT) / "media/racetracks/nurburgring.jpg"
-    with image_path.open("rb") as f:
-        image_data = f.read()
+    """Example view to test showing image from DB in template"""
+
+    track = RaceTrack.objects.get(name="nurburgring")
 
     context = {
-        "image": image_data,
+        "track": track,
     }
-    return render(request, "pages/home.html", context)
+
+    return render(request, "games/track.html", context)

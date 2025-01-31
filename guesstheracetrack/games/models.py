@@ -1,6 +1,7 @@
 import uuid
 
-from django.contrib.auth.models import User
+from django.conf import settings
+
 from django.db import models
 
 
@@ -17,7 +18,12 @@ class RaceTrack(models.Model):
 
 class GameSession(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     tracks = models.ManyToManyField(RaceTrack, through="GameSessionTrack")
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
