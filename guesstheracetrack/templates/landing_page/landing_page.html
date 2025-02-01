@@ -1,0 +1,42 @@
+{% extends "../base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+  Guess the racetrack
+{% endblock title %}
+{% block body %}
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <a class="navbar-brand" href="#">
+      <div class="row">
+        <div class="col">
+          <img class="navbar-logo"
+               src="../media/logos/logo.png"
+               height="40"
+               alt="Guess The Race Track" />
+        </div>
+        <div class="col my-auto">
+          <p class="navbar-brand-name text-white my-auto">Guess The Race Track</p>
+        </div>
+      </div>
+    </a>
+    <div class="row ms-auto">
+      <div class="col">
+        <a href="#" class="text-white me-3 nav-link">Leaderboard</a>
+      </div>
+      <div class="col">
+        <a href="{% url 'account_login' %}" class="text-white nav-link">Login</a>
+      </div>
+    </div>
+  </nav>
+  <!-- Hero Section -->
+  <section class="hero"
+           style="background-image: url('../media/racetracks/spa.png')">
+    <div class="container hero-content my-auto">
+      <h1>Are you a racing fan?</h1>
+      <h4>Test your track knowledge!</h4>
+      <a href="{% url 'games:home' %}" class="btn btn-primary mt-3">Play now</a>
+    </div>
+  </section>
+{% endblock body %}
