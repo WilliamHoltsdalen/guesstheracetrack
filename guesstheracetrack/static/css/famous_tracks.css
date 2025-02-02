@@ -69,19 +69,14 @@ body {
   border-radius: 12px;
 }
 
-.track-choices-col {
-
+.form-check-input {
+  height: 20px;
+  width: 20px;
+  border-color: var(--bs-gray);
 }
 
-.track-choice-row {
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-}
-
-.track-circle {
-
+.form-check-label {
+  margin-left: 10px;
 }
 
 .track-circle-icon{
@@ -109,7 +104,7 @@ body {
   color: #F5F5F5;
 }
 
-.btn-next {
+.btn-submit {
   background: #00E0FF;
   color: #22252A;
 }

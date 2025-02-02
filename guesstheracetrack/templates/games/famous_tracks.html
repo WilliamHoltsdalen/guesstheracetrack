@@ -15,7 +15,7 @@
         <!-- Track image -->
         <div class="row">
           <img class="image-fluid track-image"
-               src="{{ correct_track.image.url }}"
+               src=" {% for track in track_list %} {% if track.pk == correct_track_pk %}{{ track.image.url }}{% endif %} {% endfor %} "
                alt="" />
         </div>
         <!-- Text below image & round info -->
@@ -27,60 +27,33 @@
             <span class="round-info badge">Round 4 / 12</span>
           </div>
         </div>
-        <div class="row ms-5 mt-1 track-choices-row">
-          <div class="col track-choices-col">
-            <div class="row track-choice-row">
-              <div class="col-auto track-circle">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="16"
-                     height="16"
-                     class="track-circle-icon-selected"
-                     viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-              <div class="col track-name">
-                <p class="track-name">{{ correct_track.name }}</p>
-              </div>
-            </div>
-            <div class="row track-choice-row">
-              <div class="col-auto track-circle">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="16"
-                     height="16"
-                     class="track-circle-icon"
-                     viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-              <div class="col track-name">
-                <p class="track-name">{{ track_2.name }}</p>
-              </div>
-            </div>
-            <div class="row track-choice-row">
-              <div class="col-auto track-circle">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="16"
-                     height="16"
-                     class="track-circle-icon"
-                     viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-              <div class="col track-name">
-                <p class="track-name">{{ track_3.name }}</p>
-              </div>
+        <form action="{% url 'games:famous_tracks' %}" method="post">
+          <div class="row ms-5 mt-1 track-choices-row">
+            {% csrf_token %}
+            <div class="col track-choices-col">
+              {% for track in track_list %}
+                <div class="form-check">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="track"
+                         id="track"
+                         value="{{ track.pk }}" />
+                  <label class="form-check-label" for="track">
+                    <p class="track-name">{{ track.name }}</p>
+                  </label>
+                </div>
+              {% endfor %}
             </div>
           </div>
-        </div>
-        <div class="row ms-5 mt-3 button-row">
-          <div class="col-auto text-end">
-            <a href="#" class="btn btn-previous">Previous</a>
+          <div class="row ms-5 mt-3 button-row">
+            <div class="col-auto text-end">
+              <a href="#" class="invisible btn btn-previous">Previous</a>
+            </div>
+            <div class="col text-start">
+              <button type="submit" class="btn btn-submit mb-3">Submit</button>
+            </div>
           </div>
-          <div class="col text-start">
-            <a href="#" class="btn btn-next">Submit</a>
-          </div>
-        </div>
+        </form>
       </div>
       <!-- Overview card -->
       <div class="col-3 overview-card ms-5 mt-5 me-5">
