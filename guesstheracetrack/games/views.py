@@ -1,3 +1,4 @@
+import uuid
 from random import choice
 from random import shuffle
 
@@ -54,7 +55,7 @@ def famous_tracks(request):
         form = TrackChoiceForm(request.POST)
         if not form.is_valid():
             return redirect("games:home")
-        track_pk = form.cleaned_data["track"]
+        track_pk = uuid.UUID(form.cleaned_data["track"])
 
         game_session = (
             GameSession.objects.filter(user=request.user, is_completed=False)
