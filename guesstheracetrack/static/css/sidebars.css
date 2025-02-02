@@ -40,6 +40,19 @@ main {
   border-radius: 0;
 }
 
+.navbar-logo {
+            width: 40px;
+            height: 40px;
+}
+
+.navbar-brand-name {
+    font-family: "Inter", sans-serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.045rem;
+}
+
 .btn-toggle {
   display: inline-flex;
   align-items: center;
