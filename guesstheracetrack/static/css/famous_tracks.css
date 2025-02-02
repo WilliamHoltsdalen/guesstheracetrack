@@ -1,0 +1,115 @@
+body {
+  background: #F5F5F5;
+}
+
+.track-image {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 0;
+  max-height: 430px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.quiz-card {
+  background-color: #F5F5F5;
+  border-radius: 16px;
+}
+
+.overview-card {
+  background-color: #22252A;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.overview {
+  color: #F5F5F5;
+  text-align: center;
+  font-size: 1.5rem;
+  align-items: center;
+  margin: auto;
+}
+
+.overview-header {
+  font-size: 2rem;
+}
+
+.overview-row {
+}
+
+.badge {
+  max-width: 50%;
+}
+
+.round-status {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.bi-circle {
+  stroke: var(--bs-gray);
+  stroke-width: 1.5;
+}
+
+.bi-circle-correct {
+  stroke: var(--bs-success);
+}
+
+.bi-circle-wrong {
+  stroke: var(--bs-danger);
+}
+
+.round-info {
+  text-align: center;
+  background: #00E0FF;
+  color: #22252A;
+  padding: 10px;
+  font-size: 1.25rem;
+  border-radius: 12px;
+}
+
+.track-choices-col {
+
+}
+
+.track-choice-row {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.track-circle {
+
+}
+
+.track-circle-icon{
+  fill: var(--bs-gray);
+}
+
+.track-circle-icon-selected {
+  fill: #00E0FF;
+  stroke-width: 0.75;
+  stroke: #00E0FF;
+  overflow: visible;
+}
+
+.track-circle-icon:hover {
+  fill: #00E0FF;
+}
+
+.track-name {
+  padding: 0;
+  margin: 0;
+}
+
+.btn-previous {
+  background: #22252A;
+  color: #F5F5F5;
+}
+
+.btn-next {
+  background: #00E0FF;
+  color: #22252A;
+}
