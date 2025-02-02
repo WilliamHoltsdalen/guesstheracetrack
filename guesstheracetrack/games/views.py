@@ -59,7 +59,7 @@ def famous_tracks(request):
 
         game_session = (
             GameSession.objects.filter(user=request.user, is_completed=False)
-            .order_by("start_time")
+            .order_by("-start_time")
             .first()
         )
         game_session_track = GameSessionTrack.objects.filter(
@@ -74,23 +74,32 @@ def famous_tracks(request):
             game_session_track.score = -1
             game_session_track.save()
 
+        if game_session_track.order == game_session.tracks.count() - 1:
+            game_session.is_completed = True
+            game_session.save()
+            return redirect("games:home")
+
         return redirect("games:famous_tracks")
 
     # Load the page
+    # Check if the user is trying to resume an old game session
+    game_session = (
+        GameSession.objects.filter(user=request.user).order_by("-start_time").first()
+    )
+    if game_session is None or game_session.is_completed is True:
+        return redirect("games:famous_tracks/start")
+
     # Get correct track from database
     game_session = (
         GameSession.objects.filter(user=request.user, is_completed=False)
-        .order_by("start_time")
+        .order_by("-start_time")
         .first()
     )
-    if game_session is None:
-        return redirect("games:home")
+
     game_session_track = GameSessionTrack.objects.filter(
         session=game_session,
         score=0,
     ).first()
-    if game_session_track is None:
-        return redirect("games:home")
 
     # Remove the correct track from the list of tracks, and get 2 random ones
     pks = list(RaceTrack.objects.values_list("pk", flat=True))
@@ -109,6 +118,7 @@ def famous_tracks(request):
     context = {
         "track_list": track_list,
         "correct_track_pk": correct_track.pk,
+        # TODO: add game session context for status and live score
     }
 
     return render(request, "games/famous_tracks.html", context)
