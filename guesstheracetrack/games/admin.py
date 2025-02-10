@@ -25,7 +25,6 @@ class GameSessionAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "user",
-        "tracks",
         "start_time",
         "end_time",
         "score",
