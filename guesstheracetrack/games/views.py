@@ -16,20 +16,14 @@ def home(request):
 
 
 def start(request):
-    # Get 3 random track from database
+    track_list = []
+    # Get 8 random tracks from database, ensuring no duplicates
     pks = list(RaceTrack.objects.values_list("pk", flat=True))
-    random_pk_1 = choice(pks)  # noqa: S311 (not for cryptographic purposes)
-    pks.remove(random_pk_1)
-    random_pk_2 = choice(pks)  # noqa: S311 (not for cryptographic purposes)
-    pks.remove(random_pk_2)
-    random_pk_3 = choice(pks)  # noqa: S311 (not for cryptographic purposes)
+    for _ in range(8):
+        random_pk = choice(pks)  # noqa: S311 (not for cryptographic purposes)
+        track_list.append(RaceTrack.objects.get(pk=random_pk))
+        pks.remove(random_pk)
 
-    # Get race tracks from database
-    correct_track = RaceTrack.objects.get(pk=random_pk_1)
-    random_track_2 = RaceTrack.objects.get(pk=random_pk_2)
-    random_track_3 = RaceTrack.objects.get(pk=random_pk_3)
-
-    track_list = [correct_track, random_track_2, random_track_3]
     shuffle(track_list)
 
     # Create a new game session
@@ -115,10 +109,27 @@ def famous_tracks(request):
     track_list = [correct_track, random_track_2, random_track_3]
     shuffle(track_list)
 
+    # Get status of game session
+    rounds = {}
+    number_of_rounds = game_session.tracks.count()
+    for track_round in range(number_of_rounds):
+        rounds[track_round + 1] = (
+            GameSessionTrack.objects.filter(
+                session=game_session,
+                order=track_round,
+            )
+            .first()
+            .score
+        )
+
+    current_round = game_session_track.order + 1
+
     context = {
         "track_list": track_list,
         "correct_track_pk": correct_track.pk,
-        # TODO: add game session context for status and live score
+        "rounds": rounds,
+        "current_round": current_round,
+        "number_of_rounds": number_of_rounds,
     }
 
     return render(request, "games/famous_tracks.html", context)
