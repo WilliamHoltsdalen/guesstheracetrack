@@ -24,7 +24,7 @@
             <h2>Which track is this?</h2>
           </div>
           <div class="col ">
-            <span class="round-info badge">Round 4 / 12</span>
+            <span class="round-info badge">Round {{ current_round }} / {{ number_of_rounds }}</span>
           </div>
         </div>
         <form action="{% url 'games:famous_tracks' %}" method="post">
@@ -63,146 +63,22 @@
             <div class="row overview-row">
               <h2 class="overview overview-header">Overview</h2>
             </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 1</p>
+            {% for round, score in rounds.items %}
+              <div class="row align-items-center overview-row">
+                <div class="col">
+                  <p class="overview">Round {{ round }}</p>
+                </div>
+                <div class="col round-status">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="30"
+                       height="30"
+                       {% if score == 1 %} class="bi bi-circle bi-circle-correct" {% elif score == -1 %} class="bi bi-circle bi-circle-wrong" {% else %} class="bi bi-circle" {% endif %}
+                       viewBox="-1 0 19 15">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                  </svg>
+                </div>
               </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle-wrong"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 2</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle-correct"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 3</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle-correct"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 4</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 5</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 6</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 7</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 8</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 9</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
-            <div class="row align-items-center overview-row">
-              <div class="col">
-                <p class="overview">Round 10</p>
-              </div>
-              <div class="col round-status">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     width="30"
-                     height="30"
-                     class="bi bi-circle bi-circle"
-                     viewBox="-1 0 19 15">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                </svg>
-              </div>
-            </div>
+            {% endfor %}
           </div>
         </div>
       </div>
