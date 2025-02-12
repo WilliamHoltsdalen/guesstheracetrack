@@ -150,17 +150,22 @@ def session_complete(request):
 
     rounds = {}
     for track_round in range(game_session.tracks.count()):
-        rounds[track_round + 1] = (
-            GameSessionTrack.objects.filter(
+        rounds[track_round + 1] = {
+            "track_name": GameSessionTrack.objects.filter(
                 session=game_session,
                 order=track_round,
             )
             .first()
-            .score
-        )
+            .track.name,
+            "score": GameSessionTrack.objects.filter(
+                session=game_session,
+                order=track_round,
+            )
+            .first()
+            .score,
+        }
 
     context = {
-        "game_session": game_session,
         "rounds": rounds,
     }
 
