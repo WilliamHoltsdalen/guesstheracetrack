@@ -1,0 +1,53 @@
+{% extends "../base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+  {{ track.name }}
+{% endblock title %}
+{% block page_css %}
+  <link href="{% static 'css/session_complete.css' %}" rel="stylesheet" />
+{% endblock page_css %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col m-5">
+        <div class="row ms-5 mt-5">
+          <div class="col">
+            <div class="row m-0 py-5 pt-4 text-center">
+              <h1>Session complete!</h1>
+            </div>
+            <div class="row m-0 py-5 pt-4 container-fluid d-flex flex-column h-100">
+              <div class="col d-flex flex-column justify-content-between">
+                {% for round_number, round_data in rounds.items %}
+                  <div class="row align-items-center overview-row">
+                    <div class="col">
+                      <p class="overview">Round {{ round_number }} ({{ round_data.track_name }})</p>
+                    </div>
+                    <div class="col round-status">
+                      <svg xmlns="http://www.w3.org/2000/svg"
+                           width="30"
+                           height="30"
+                           {% if round_data.score == 1 %} class="bi bi-circle bi-circle-correct" {% elif round_data.score == -1 %} class="bi bi-circle bi-circle-wrong" {% else %} class="bi bi-circle" {% endif %}
+                           viewBox="-1 0 19 15">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                      </svg>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="row m-0 py-5 pt-4">
+              <div class="col">
+                <a href="{% url 'games:start_session' %}" class="btn btn-primary">Play again</a>
+              </div>
+              <div class="col">
+                <a href="{% url 'games:home' %}" class="btn btn-secondary">Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

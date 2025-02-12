@@ -15,7 +15,7 @@ def home(request):
     return render(request, "games/home.html")
 
 
-def start(request):
+def start_session(request):
     track_list = []
     # Get 8 random tracks from database, ensuring no duplicates
     pks = list(RaceTrack.objects.values_list("pk", flat=True))
@@ -71,7 +71,7 @@ def famous_tracks(request):
         if game_session_track.order == game_session.tracks.count() - 1:
             game_session.is_completed = True
             game_session.save()
-            return redirect("games:home")
+            return redirect("games:session_complete")
 
         return redirect("games:famous_tracks")
 
@@ -81,7 +81,7 @@ def famous_tracks(request):
         GameSession.objects.filter(user=request.user).order_by("-start_time").first()
     )
     if game_session is None or game_session.is_completed is True:
-        return redirect("games:famous_tracks/start")
+        return redirect("games:start_session")
 
     # Get correct track from database
     game_session = (
@@ -133,3 +133,40 @@ def famous_tracks(request):
     }
 
     return render(request, "games/famous_tracks.html", context)
+
+
+def session_complete(request):
+    """This view is called when a round is complete. It will show a complete
+    round overview with results."""
+
+    # Get the game session
+    game_session = (
+        GameSession.objects.filter(user=request.user, is_completed=True)
+        .order_by("-start_time")
+        .first()
+    )
+    if not game_session:
+        return redirect("games:home")
+
+    rounds = {}
+    for track_round in range(game_session.tracks.count()):
+        rounds[track_round + 1] = {
+            "track_name": GameSessionTrack.objects.filter(
+                session=game_session,
+                order=track_round,
+            )
+            .first()
+            .track.name,
+            "score": GameSessionTrack.objects.filter(
+                session=game_session,
+                order=track_round,
+            )
+            .first()
+            .score,
+        }
+
+    context = {
+        "rounds": rounds,
+    }
+
+    return render(request, "games/session_complete.html", context)
