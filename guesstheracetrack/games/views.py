@@ -71,7 +71,7 @@ def famous_tracks(request):
         if game_session_track.order == game_session.tracks.count() - 1:
             game_session.is_completed = True
             game_session.save()
-            return redirect("games:home")
+            return redirect("games:session_complete")
 
         return redirect("games:famous_tracks")
 
@@ -81,7 +81,7 @@ def famous_tracks(request):
         GameSession.objects.filter(user=request.user).order_by("-start_time").first()
     )
     if game_session is None or game_session.is_completed is True:
-        return redirect("games:famous_tracks/start_session")
+        return redirect("games:start_session")
 
     # Get correct track from database
     game_session = (

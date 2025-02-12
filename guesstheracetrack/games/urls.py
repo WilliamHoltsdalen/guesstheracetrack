@@ -12,7 +12,7 @@ urlpatterns = [
     path(
         "famous_tracks/start_session/",
         view=start_session,
-        name="famous_tracks/start_session",
+        name="start_session",
     ),
     path("session_complete/", view=session_complete, name="session_complete"),
 ]
