@@ -15,7 +15,7 @@ def home(request):
     return render(request, "games/home.html")
 
 
-def start(request):
+def start_session(request):
     track_list = []
     # Get 8 random tracks from database, ensuring no duplicates
     pks = list(RaceTrack.objects.values_list("pk", flat=True))
@@ -135,7 +135,7 @@ def famous_tracks(request):
     return render(request, "games/famous_tracks.html", context)
 
 
-def round_complete(request):
+def session_complete(request):
     """This view is called when a round is complete. It will show a complete
     round overview with results."""
 
