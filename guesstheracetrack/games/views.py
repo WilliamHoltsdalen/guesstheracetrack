@@ -81,7 +81,7 @@ def famous_tracks(request):
         GameSession.objects.filter(user=request.user).order_by("-start_time").first()
     )
     if game_session is None or game_session.is_completed is True:
-        return redirect("games:famous_tracks/start")
+        return redirect("games:famous_tracks/start_session")
 
     # Get correct track from database
     game_session = (
@@ -164,4 +164,4 @@ def session_complete(request):
         "rounds": rounds,
     }
 
-    return render(request, "games/round_complete.html", context)
+    return render(request, "games/session_complete.html", context)
