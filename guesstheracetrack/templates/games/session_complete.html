@@ -37,6 +37,14 @@
                 {% endfor %}
               </div>
             </div>
+            <div class="row m-0 py-5 pt-4">
+              <div class="col">
+                <a href="{% url 'games:start_session' %}" class="btn btn-primary">Play again</a>
+              </div>
+              <div class="col">
+                <a href="{% url 'games:home' %}" class="btn btn-secondary">Home</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
