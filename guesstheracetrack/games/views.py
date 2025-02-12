@@ -133,3 +133,35 @@ def famous_tracks(request):
     }
 
     return render(request, "games/famous_tracks.html", context)
+
+
+def round_complete(request):
+    """This view is called when a round is complete. It will show a complete
+    round overview with results."""
+
+    # Get the game session
+    game_session = (
+        GameSession.objects.filter(user=request.user, is_completed=True)
+        .order_by("-start_time")
+        .first()
+    )
+    if not game_session:
+        return redirect("games:home")
+
+    rounds = {}
+    for track_round in range(game_session.tracks.count()):
+        rounds[track_round + 1] = (
+            GameSessionTrack.objects.filter(
+                session=game_session,
+                order=track_round,
+            )
+            .first()
+            .score
+        )
+
+    context = {
+        "game_session": game_session,
+        "rounds": rounds,
+    }
+
+    return render(request, "games/round_complete.html", context)
