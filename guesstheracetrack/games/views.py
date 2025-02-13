@@ -17,9 +17,9 @@ def home(request):
 
 def start_session(request):
     track_list = []
-    # Get 8 random tracks from database, ensuring no duplicates
+    # Get (max 10) random tracks from database, ensuring no duplicates
     pks = list(RaceTrack.objects.values_list("pk", flat=True))
-    for _ in range(8):
+    for _ in range(min(10, len(pks))):
         random_pk = choice(pks)  # noqa: S311 (not for cryptographic purposes)
         track_list.append(RaceTrack.objects.get(pk=random_pk))
         pks.remove(random_pk)
