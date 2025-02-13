@@ -37,9 +37,16 @@ class GameSessionAdmin(admin.ModelAdmin):
 
 @admin.register(GameSessionTrack)
 class GameSessionTrackAdmin(admin.ModelAdmin):
-    list_display = ("session", "track", "score", "order")
-    list_filter = ("session", "track")
-    search_fields = ("session__user__username", "track__name")
+    list_display = (
+        "session",
+        "correct_track",
+        "incorrect_track_1",
+        "incorrect_track_2",
+        "score",
+        "order",
+    )
+    list_filter = ("session", "correct_track")
+    search_fields = ("session__user__username", "correct_track__name")
     ordering = ("session__start_time",)
 
 
