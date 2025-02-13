@@ -23,7 +23,16 @@ class GameSession(models.Model):
         null=True,
         blank=True,
     )
-    tracks = models.ManyToManyField(RaceTrack, through="GameSessionTrack")
+    tracks = models.ManyToManyField(
+        RaceTrack,
+        through="GameSessionTrack",
+        through_fields=(
+            "session",
+            "correct_track",
+            "incorrect_track_1",
+            "incorrect_track_2",
+        ),
+    )
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
     score = models.IntegerField(default=0)
@@ -42,16 +51,41 @@ class GameSessionTrack(models.Model):
         on_delete=models.CASCADE,
         related_name="game_tracks",
     )
-    track = models.ForeignKey(RaceTrack, on_delete=models.CASCADE)
+    correct_track = models.ForeignKey(
+        RaceTrack,
+        on_delete=models.CASCADE,
+        related_name="correct_track",
+        default=None,
+    )
+    incorrect_track_1 = models.ForeignKey(
+        RaceTrack,
+        on_delete=models.CASCADE,
+        related_name="incorrect_track_1",
+        default=None,
+    )
+    incorrect_track_2 = models.ForeignKey(
+        RaceTrack,
+        on_delete=models.CASCADE,
+        related_name="incorrect_track_2",
+        default=None,
+    )
     score = models.IntegerField(default=0)
     order = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = ("session", "track")
+        unique_together = (
+            "session",
+            "correct_track",
+            "incorrect_track_1",
+            "incorrect_track_2",
+        )
 
     def __str__(self):
         return (
-            f"GameSession {self.session.id} - {self.track.name} ({self.score} points)"
+            f"GameSession {self.session.id} - Correct:"
+            f" {self.correct_track.name}, Incorrect 1: "
+            f"{self.incorrect_track_1.name}, Incorrect 2: "
+            f"{self.incorrect_track_2.name} ({self.score} points)"
         )
 
 
