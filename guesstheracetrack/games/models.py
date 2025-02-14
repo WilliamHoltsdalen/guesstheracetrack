@@ -3,11 +3,13 @@ import uuid
 from django.conf import settings
 from django.db import models
 
+from .utils import RandomFileName
+
 
 class RaceTrack(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, unique=True)
-    image = models.ImageField(upload_to="racetracks/")
+    image = models.ImageField(upload_to=RandomFileName("racetracks"))
     difficulty = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 

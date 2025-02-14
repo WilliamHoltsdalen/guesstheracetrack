@@ -157,6 +157,7 @@ def session_complete(request):
         return redirect("games:home")
 
     rounds = {}
+    total_score = 0
     for track_round in range(game_session.tracks.count()):
         rounds[track_round + 1] = {
             "track_name": GameSessionTrack.objects.filter(
@@ -172,9 +173,12 @@ def session_complete(request):
             .first()
             .score,
         }
+        if rounds[track_round + 1]["score"] == 1:
+            total_score += 1
 
     context = {
         "rounds": rounds,
+        "total_score": total_score,
     }
 
     return render(request, "games/session_complete.html", context)
