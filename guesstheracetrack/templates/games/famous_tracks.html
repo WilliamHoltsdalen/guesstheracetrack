@@ -36,9 +36,9 @@
                   <input class="form-check-input"
                          type="radio"
                          name="track"
-                         id="track"
+                         id="{{ track.pk }}"
                          value="{{ track.pk }}" />
-                  <label class="form-check-label" for="track">
+                  <label class="form-check-label" for="{{ track.pk }}">
                     <p class="track-name">{{ track.name }}</p>
                   </label>
                 </div>
