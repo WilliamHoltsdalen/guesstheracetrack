@@ -108,3 +108,9 @@ body {
   background: #00E0FF;
   color: #22252A;
 }
+
+.btn-submit:hover {
+  background: #0080ff;
+  color: #FFFFFF;
+  transform: scale(1.1);
+}
