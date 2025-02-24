@@ -10,36 +10,119 @@
 {% endblock page_css %}
 {% block body %}
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <a class="navbar-brand" href="#">
-      <div class="row">
-        <div class="col">
-          <img class="navbar-logo"
-               src="{% static 'images/logos/logo.png' %}"
-               height="40"
-               alt="Guess The Race Track" />
+  <div class="sticky-nav-div">
+    <nav class="navbar navbar-expand-lg">
+      <a class="navbar-brand" href="#">
+        <div class="row">
+          <div class="col nav-item">
+            <img class="navbar-logo"
+                 src="{% static 'images/logos/logo.png' %}"
+                 height="40"
+                 alt="Guess The Race Track" />
+          </div>
+          <div class="col my-auto">
+            <p class="navbar-brand-name text-white my-auto">Guess The Race Track</p>
+          </div>
         </div>
-        <div class="col my-auto">
-          <p class="navbar-brand-name text-white my-auto">Guess The Race Track</p>
+      </a>
+      <div class="row ms-auto">
+        <div class="col nav-item">
+          <a href="#" class="me-3 nav-link">Blog</a>
+        </div>
+        <div class="col nav-item">
+          <a href="#" class="me-3 nav-link text-nowrap">Contact us</a>
+        </div>
+        <div class="col nav-item">
+          <a href="#" class="me-3 nav-link">Leaderboard</a>
+        </div>
+        <div class="col nav-item">
+          <div class="login-btn-wrapper">
+            <a href="{% url 'games:home' %}" class="btn login-btn">Login</a>
+          </div>
         </div>
       </div>
-    </a>
-    <div class="row ms-auto">
-      <div class="col">
-        <a href="#" class="disabled text-white me-3 nav-link">Leaderboard</a>
-      </div>
-      <div class="col">
-        <a href="{% url 'account_login' %}" class="text-white nav-link">Login</a>
+    </nav>
+  </div>
+  <main>
+    <div class="container-fluid page-container">
+      <!-- Hero Section -->
+      <div class="row hero-section">
+        <div class="page-circle-gradient-1"></div>
+        <div class="page-circle-gradient-2"></div>
+        <div class="hero-container container-fluid d-flex flex-column align-items-center">
+          <div class="row hero-content">
+            <h1 class="hero-header">Are you a real racing fan?</h1>
+            <div class="row d-flex justify-content-center hero-subheader-row">
+              <div class="col-auto">
+                <div class="row">
+                  <h4 class="hero-subheader">Test your track knowledge!</h4>
+                </div>
+                <div class="row justify-content-center mt-4">
+                  <a href="{% url 'games:home' %}" class="btn btn-play-now">Play now</a>
+                </div>
+              </div>
+              <div class="col-auto">
+                <img class="arrow-down"
+                     src="{% static 'images/icons/arrow.png' %}"
+                     alt="Arrow down" />
+              </div>
+            </div>
+          </div>
+          <div class="row hero-images">
+            <div class="col">
+              <img class="hero-image-div"
+                   src="{% static 'images/racetracks/suzuka.jpg' %}"
+                   alt="Hero image of Suzuka Circuit" />
+            </div>
+            <div class="col">
+              <img class="hero-image-div"
+                   src="{% static 'images/racetracks/spa.jpg' %}"
+                   alt="Hero image of Spa Francorchamps" />
+            </div>
+            <div class="col">
+              <img class="hero-image-div"
+                   src="{% static 'images/racetracks/monza.jpg' %}"
+                   alt="Hero image of Monza Circuit" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
-  <!-- Hero Section -->
-  <section class="hero"
-           style="background-image: url({% static 'images/racetracks/spa.png' %})">
-    <div class="container hero-content my-auto">
-      <h1>Are you a racing fan?</h1>
-      <h4>Test your track knowledge!</h4>
-      <a href="{% url 'games:home' %}" class="btn btn-primary mt-3">Play now</a>
+  </main>
+  <footer class="footer">
+    <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
+      <div class="row footer-grid">
+        <div class="col-auto footer-col">
+          <div class="row">
+            <img class="footer-logo"
+                 style="width: 100px"
+                 src="{% static 'images/logos/logo.png' %}"
+                 alt="Guess The Race Track" />
+          </div>
+          <div class="row"></div>
+          <div class="row"></div>
+        </div>
+        <div class="col-auto footer-col">
+          <p class="footer-text">Leaderboard</p>
+          <p class="footer-text">Blog</p>
+          <p class="footer-text">About us</p>
+        </div>
+        <div class="col-auto footer-col">
+          <p class="footer-text">Contact us</p>
+          <p class="footer-text">Privacy policy</p>
+        </div>
+      </div>
+      <div class="row footer-divider"></div>
+      <div class="row footer-bottom justify-content-between">
+        <div class="col-auto">
+          <div class="copyright-text">
+            <p class="footer-text">© 2025 Guess The Race Track</p>
+          </div>
+        </div>
+        <div class="col-auto">
+          <p class="footer-text">Made by William Holtsdalen</p>
+        </div>
+      </div>
     </div>
-  </section>
+  </footer>
 {% endblock body %}
