@@ -88,7 +88,7 @@
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a href="{% url 'games:home' %}"
-         class="nav-link active"
+         class="nav-link {% if request.path == '/games/' %}active{% endif %}"
          aria-current="page">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#home"></use>
@@ -98,7 +98,8 @@
     </li>
     <hr />
     <li>
-      <a href="{% url 'games:famous_tracks' %}" class="nav-link text-white">
+      <a href="{% url 'games:famous_tracks' %}"
+         class="nav-link {% if request.path|slice:'0:21' == '/games/famous_tracks/' %}active{% endif %}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#grid"></use>
         </svg>

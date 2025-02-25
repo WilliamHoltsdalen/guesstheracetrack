@@ -57,6 +57,15 @@ main {
     letter-spacing: 0.05rem;
 }
 
+.nav-link {
+  color: var(--owhite);
+}
+
+.nav-link:hover {
+  color: var(--lavender);
+  transform: scale(1.03);
+}
+
 .btn-toggle {
   display: inline-flex;
   align-items: center;
