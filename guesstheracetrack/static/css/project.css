@@ -1,9 +1,37 @@
-/* These styles are generated from project.scss. */
+:root {
+  --blue: #0052ff;
+  --teal-bg-blue: #869FD4;
+  --owhite:  #f5f5f5;
+  --lavender: #dfe6f6;
+  --black: #0A090B;
+  --dark-grey: #23252c;
+  --radial-blue: #0052ffb5;
+  --radial-grey: #6b6b6b;
+  --radial-black: #0a090b;
+  --sidebar-width: 320px;
+}
+
 
 body {
-  background: #0A090B;
   height: 100%;
-  /*background: #1a202c;*/
+  background: var(--teal-bg-blue);
+}
+
+.main-class {
+  overflow-x: hidden;
+}
+
+.main-container {
+  padding: 0;
+  max-width: calc(100% - var(--sidebar-width));
+  background: var(--owhite);
+}
+
+.content-container {
+  background: var(--owhite);
+  height: 100%;
+  padding: 0;
+  color: var(--black);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -14,13 +42,44 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .alert-debug {
-  color: black;
+  color: var(--black);
   background-color: white;
   border-color: #d6e9c6;
+}
+
+.alert {
+  background: var(--lavender);
 }
 
 .alert-error {
   color: #b94a48;
   background-color: #f2dede;
   border-color: #eed3d7;
+}
+
+.page-circle-gradient-1{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60%;
+  margin: 0;
+  padding: 0;
+  z-index: -1;
+  background: radial-gradient(circle farthest-corner at 0% 30%, var(--radial-blue) 0%, var(--radial-grey) 50%);
+}
+
+.page-circle-gradient-2 {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 60%;
+  margin: 0;
+  padding: 0;
+  z-index: -1;
+  background: radial-gradient(circle farthest-corner at 110% 50%, var(--radial-blue) 0%, var(--radial-grey) 50%);
+}
+
+.btn-primary {
+  background: var(--blue);
 }
