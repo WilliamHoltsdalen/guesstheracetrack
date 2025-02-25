@@ -8,6 +8,7 @@
   --radial-blue: #0052ffb5;
   --radial-grey: #6b6b6b;
   --radial-black: #0a090b;
+  --sidebar-width: 320px;
 }
 
 
@@ -22,13 +23,13 @@ body {
 
 .main-container {
   padding: 0;
+  max-width: calc(100% - var(--sidebar-width));
   background: var(--owhite);
 }
 
 .content-container {
-  background: #FFFF;
+  background: var(--owhite);
   height: 100%;
-  width: 100%;
   padding: 0;
   color: var(--black);
 }
