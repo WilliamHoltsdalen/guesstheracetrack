@@ -2,6 +2,7 @@
   width: 320px;
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  background: rgba(10, 9, 11, 0.49);
 }
 
 html {
