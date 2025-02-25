@@ -14,7 +14,13 @@ MIN_TRACKS_FOR_SESSION = 3
 
 
 def home(request):
-    return render(request, "games/home.html")
+    context = {
+        "messages": [
+            "This site is still under development, so expect some bugs and "
+            "glitches 🫣.",
+        ],
+    }
+    return render(request, "games/home.html", context)
 
 
 def start_session(request):
