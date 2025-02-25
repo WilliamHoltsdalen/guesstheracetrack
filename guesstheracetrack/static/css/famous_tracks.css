@@ -1,39 +1,5 @@
-.page-circle-gradient-1{
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 60%;
-  margin: 0;
-  padding: 0;
-  z-index: -1;
-  background: radial-gradient(circle farthest-corner at 0% 30%, rgba(0, 82, 255, 0.55) 0%, rgba(107,107,107,13) 50%);
-}
-
-.page-circle-gradient-2 {
-  position: absolute;
-  right: 0;
-  height: 100%;
-  width: 60%;
-  margin: 0;
-  padding: 0;
-  z-index: -1;
-  background: radial-gradient(circle farthest-corner at 110% 50%, rgba(0, 82, 255, 0.55) 0%, rgba(107,107,107,13) 50%);
-}
-
 body {
   background: #869FD4;
-}
-
-.main-container {
-  padding: 0;
-}
-
-.content-container {
-  background: #FFFF;
-  height: 100%;
-  width: 100%;
-  padding: 0;
 }
 
 .track-image {

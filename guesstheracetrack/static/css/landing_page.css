@@ -1,3 +1,6 @@
+body {
+    background: #0A090B;
+}
 
 .sticky-nav-div {
     backdrop-filter: none;
@@ -95,7 +98,6 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    background: #0A090B;
 }
 
 .page-circle-gradient-1{
@@ -163,6 +165,7 @@
 
 .hero-subheader-row {
   margin-left: 114px;
+  max-width: 1080px;
 }
 
 /* Button */
