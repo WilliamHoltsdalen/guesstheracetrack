@@ -1,9 +1,9 @@
 body {
-  background: #869FD4;
+  background: var(--teal-bg-blue);
 }
 
 .track-image {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px var(--black);
   padding: 0;
   max-height: 430px;
   object-fit: cover;
@@ -11,18 +11,18 @@ body {
 }
 
 .quiz-card {
-  color: #0A090B;
+  color: var(--black);
   border-radius: 16px;
 }
 
 .overview-card {
-  background-color: #22252A;
+  background-color: var(--dark-grey);
   border-radius: 16px;
   padding: 10px;
 }
 
 .overview {
-  color: #F5F5F5;
+  color: var(--lavender);
   text-align: center;
   font-size: 1.5rem;
   align-items: center;
@@ -62,11 +62,11 @@ body {
 
 .round-info {
   text-align: center;
-  background: #00E0FF;
-  color: #22252A;
+  color: var(--black);
   padding: 10px;
   font-size: 1.25rem;
   border-radius: 12px;
+  border: 4px solid var(--blue);
 }
 
 .form-check-input {
@@ -83,34 +83,19 @@ body {
   fill: var(--bs-gray);
 }
 
-.track-circle-icon-selected {
-  fill: #00E0FF;
-  stroke-width: 0.75;
-  stroke: #00E0FF;
-  overflow: visible;
-}
-
-.track-circle-icon:hover {
-  fill: #00E0FF;
-}
-
 .track-name {
   padding: 0;
   margin: 0;
 }
 
-.btn-previous {
-  background: #22252A;
-  color: #F5F5F5;
-}
-
 .btn-submit {
-  background: #00E0FF;
-  color: #22252A;
+  background: var(--blue);
+  color: var(--owhite);
+  font-weight: 500;
 }
 
 .btn-submit:hover {
-  background: #0080ff;
-  color: #FFFFFF;
+  background: var(--radial-blue);
+  color: var(--black);
   transform: scale(1.1);
 }

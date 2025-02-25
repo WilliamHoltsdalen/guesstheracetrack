@@ -1,5 +1,5 @@
 body {
-    background: #0A090B;
+    background: var(--black);
 }
 
 .sticky-nav-div {
@@ -69,7 +69,7 @@ body {
 }
 
 .login-btn-wrapper {
-    background: linear-gradient(90deg, #0052ff 0%, #dfe6f6 100%);
+    background: linear-gradient(90deg, var(--blue) 0%, var(--lavender) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,14 +78,14 @@ body {
 }
 
 .login-btn {
-    background: #0A090B;
+    background: var(--black);
     padding: 8px 16px;
     border-radius: 8px;
     color: #dfe6f6;
 }
 
 .login-btn:hover {
-    color: #0A090B;
+    color: var(--black);
 }
 
 .page-container {
@@ -108,7 +108,7 @@ body {
   width: 60%;
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle farthest-corner at -20% 30%, rgba(0, 82, 255, 0.55) 0%, rgba(10,9,11,1) 50%);
+  background: radial-gradient(circle farthest-corner at -20% 30%, var(--radial-blue) 0%, var(--radial-black) 50%);
 }
 
 .page-circle-gradient-2 {
@@ -118,7 +118,7 @@ body {
   width: 60%;
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle farthest-corner at 110% 50%, rgba(0, 82, 255, 0.55) 0%, rgba(10,9,11,1) 40%);
+  background: radial-gradient(circle farthest-corner at 110% 50%, var(--radial-blue) 0%, var(--radial-black) 40%);
 }
 
 .hero-container {
@@ -170,8 +170,8 @@ body {
 
 /* Button */
 .btn-play-now {
-    background: #0052FF;
-    color: #dfe6f6;
+    background: var(--blue);
+    color: var(--lavender);
     border: none;
     width: auto;
     font-weight: 600;
@@ -183,8 +183,8 @@ body {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 .btn-play-now:hover {
-    background: #0052ff8c;
-    color: #dfe6f6;
+    background: var(--radial-blue);
+    color: var(--lavender);
     transform: scale(1.1);
 }
 .btn-play-now:active {
@@ -207,7 +207,7 @@ body {
 }
 
 .hero-image-div {
-  box-shadow: 0 0 10px rgb(0, 82, 255);
+  box-shadow: 0 0 10px var(--blue);
   padding: 0;
   max-height: 230px;
   max-width: 330px;
@@ -217,7 +217,7 @@ body {
 
 .lavender-section {
     height: 250px;
-    background: #E6E6FA;
+    background: var(--lavender);
     padding: 0;
     margin: 0;
 }
@@ -244,11 +244,9 @@ body {
 }
 
 .footer-text {
-  color: #dfe6f6;
+  color: var(--lavender);
   margin-bottom: 8px;
 }
-
-
 
 .footer-divider {
   background: #1b3670;

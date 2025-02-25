@@ -1,7 +1,3 @@
-body {
-  background: #F5F5F5;
-}
-
 .round-status {
   text-align: center;
   padding: 0;
@@ -22,7 +18,7 @@ body {
 }
 
 .overview {
-  color: #23252c;
+  color: var(--dark-grey);
   font-size: 1.5rem;
   margin: auto;
 }
