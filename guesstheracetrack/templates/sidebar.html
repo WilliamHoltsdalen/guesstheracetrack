@@ -66,18 +66,21 @@
   </symbol>
 </svg>
 <!-- Sidebar -->
-<div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-  <a class=" d-flex align-items-center navbar-brand"
+<div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white">
+  <a class="d-flex align-items-center navbar-brand"
      href="{% url 'landing_page' %}">
     <div class="row">
       <div class="col">
         <img class="navbar-logo"
              src="{% static 'images/logos/logo.png' %}"
-             height="40"
              alt="Guess The Race Track" />
       </div>
       <div class="col my-auto ">
-        <p class="navbar-brand-name text-white my-auto">Guess The Race Track</p>
+        <p class="navbar-brand-name text-white my-auto">
+          Guess The
+          <br />
+          Race Track
+        </p>
       </div>
     </div>
   </a>
@@ -85,7 +88,7 @@
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a href="{% url 'games:home' %}"
-         class="nav-link active"
+         class="nav-link {% if request.path == '/games/' %}active{% endif %}"
          aria-current="page">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#home"></use>
@@ -95,7 +98,8 @@
     </li>
     <hr />
     <li>
-      <a href="{% url 'games:famous_tracks' %}" class="nav-link text-white">
+      <a href="{% url 'games:famous_tracks' %}"
+         class="nav-link {% if request.path|slice:'0:21' == '/games/famous_tracks/' %}active{% endif %}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#grid"></use>
         </svg>
