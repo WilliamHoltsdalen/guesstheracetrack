@@ -1,12 +1,17 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
-from users.models import User
 
 
 class Score(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     score = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
 
