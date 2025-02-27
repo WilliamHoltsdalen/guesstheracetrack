@@ -43,9 +43,6 @@ class GameSession(models.Model):
     def __str__(self):
         return f"GameSession {self.id} - {self.user}"
 
-    def total_score(self):
-        return sum(track.score for track in self.tracks.all())
-
 
 class GameSessionTrack(models.Model):
     session = models.ForeignKey(
