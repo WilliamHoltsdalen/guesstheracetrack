@@ -89,6 +89,17 @@ def famous_tracks(request):
             game_session_track.save()
 
         if game_session_track.order == game_session.tracks.count() - 1:
+            # Calculate total score for the game session
+            game_session.score = GameSessionTrack.objects.filter(
+                session=game_session,
+                score=1,
+            ).count()
+            game_session.save()
+
+            current_user_score = request.user.score
+            current_user_score.add_game_score(game_session.score)
+            current_user_score.save()
+
             game_session.is_completed = True
             game_session.save()
             return redirect("games:session_complete")
