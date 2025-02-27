@@ -74,9 +74,12 @@ def start_session(request):
 
     # Select random tracks for the session
     num_rounds = min(10, len(pks) - 1)
-    selected_tracks = RaceTrack.objects.filter(
-        pk__in=sample(pks, k=num_rounds),
+    selected_tracks = list(
+        RaceTrack.objects.filter(
+            pk__in=sample(pks, k=num_rounds),
+        ),
     )
+    shuffle(selected_tracks)  # Randomize the order of tracks
 
     for i, track in enumerate(selected_tracks):
         create_game_round(game_session, track, pks, i)
