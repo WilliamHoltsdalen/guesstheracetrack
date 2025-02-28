@@ -3,6 +3,7 @@ from random import sample
 from random import shuffle
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import QuerySet
 from django.shortcuts import redirect
 from django.shortcuts import render
 
@@ -43,7 +44,7 @@ def get_current_track(game_session) -> GameSessionTrack | None:
     ).first()
 
 
-def get_game_session_track_objects(game_session) -> GameSessionTrack:
+def get_game_session_track_objects(game_session) -> QuerySet[GameSessionTrack]:
     """Get all GameSessionTrack objects for a game session."""
     return GameSessionTrack.objects.filter(session=game_session)
 
@@ -210,3 +211,23 @@ def session_complete(request):
     }
 
     return render(request, "games/session_complete.html", context)
+
+
+@login_required
+def restart_session(request):
+    """Restart the game session, resetting all scores."""
+    game_session = get_active_game_session(request.user)
+    if game_session:
+        game_session.delete()
+
+    return redirect("games:start_session")
+
+
+@login_required
+def quit_session(request):
+    """Quit the game session."""
+    game_session = get_active_game_session(request.user)
+    if game_session:
+        game_session.delete()
+
+    return redirect("games:home")
