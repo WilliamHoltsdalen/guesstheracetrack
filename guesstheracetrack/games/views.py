@@ -1,9 +1,13 @@
 import uuid
-from random import choice
+from random import sample
 from random import shuffle
 
+from django.contrib.auth.decorators import login_required
+from django.db.models import QuerySet
 from django.shortcuts import redirect
 from django.shortcuts import render
+
+from guesstheracetrack.scores.models import Score
 
 from .forms import TrackChoiceForm
 from .models import GameSession
@@ -23,98 +27,86 @@ def home(request):
     return render(request, "games/home.html", context)
 
 
-def start_session(request):
-    # Minimum of 3 tracks required
-
-    pks = list(RaceTrack.objects.values_list("pk", flat=True)).copy()
-    unused_pks = pks.copy()
-    # If there are less than minimum of 3 tracks in the database, redirect
-    if len(pks) < MIN_TRACKS_FOR_SESSION:
-        return redirect("games:home")
-
-    # Create a new game session with rounds
-    game_session = GameSession.objects.create(
-        user=request.user,
-    )
-
-    # Get (max 10) random tracks from database, ensuring no duplicates
-    for i in range(min(10, len(pks) - 1)):
-        correct_track_pk = choice(unused_pks)  # noqa: S311 (not for cryptographic purposes)
-        unused_pks.remove(correct_track_pk)
-        non_correct_pks = pks.copy()
-        non_correct_pks.remove(correct_track_pk)
-
-        incorrect_track_1_pk = choice(non_correct_pks)  # noqa: S311 (not for cryptographic purposes)
-        non_correct_pks.remove(incorrect_track_1_pk)
-        incorrect_track_2_pk = choice(non_correct_pks)  # noqa: S311 (not for cryptographic purposes)
-
-        correct_track = RaceTrack.objects.get(pk=correct_track_pk)
-        incorrect_track_1 = RaceTrack.objects.get(pk=incorrect_track_1_pk)
-        incorrect_track_2 = RaceTrack.objects.get(pk=incorrect_track_2_pk)
-
-        GameSessionTrack.objects.create(
-            session=game_session,
-            correct_track=correct_track,
-            incorrect_track_1=incorrect_track_1,
-            incorrect_track_2=incorrect_track_2,
-            order=i,
-        )
-
-    return redirect("games:famous_tracks")
-
-
-def famous_tracks(request):
-    # If the user submits a track choice...
-    if request.method == "POST":
-        form = TrackChoiceForm(request.POST)
-        if not form.is_valid():
-            return redirect("games:home")
-        track_pk = uuid.UUID(form.cleaned_data["track"])
-
-        game_session = (
-            GameSession.objects.filter(user=request.user, is_completed=False)
-            .order_by("-start_time")
-            .first()
-        )
-        game_session_track = GameSessionTrack.objects.filter(
-            session=game_session,
-            score=0,
-        ).first()
-
-        if game_session_track.correct_track.pk == track_pk:
-            game_session_track.score += 1
-            game_session_track.save()
-        else:
-            game_session_track.score = -1
-            game_session_track.save()
-
-        if game_session_track.order == game_session.tracks.count() - 1:
-            game_session.is_completed = True
-            game_session.save()
-            return redirect("games:session_complete")
-
-        return redirect("games:famous_tracks")
-
-    # Load the page
-    # Check if the user is trying to resume an old game session
-    game_session = (
-        GameSession.objects.filter(user=request.user).order_by("-start_time").first()
-    )
-    if game_session is None or game_session.is_completed is True:
-        return redirect("games:start_session")
-
-    # Get correct track from database
-    game_session = (
-        GameSession.objects.filter(user=request.user, is_completed=False)
+def get_active_game_session(user) -> GameSession | None:
+    """Get the most recent incomplete game session for a user."""
+    return (
+        GameSession.objects.filter(user=user, is_completed=False)
         .order_by("-start_time")
         .first()
     )
-    game_session_track = GameSessionTrack.objects.filter(
+
+
+def get_current_track(game_session) -> GameSessionTrack | None:
+    """Get the current unanswered track for a game session."""
+    return GameSessionTrack.objects.filter(
         session=game_session,
         score=0,
     ).first()
 
-    # Get the track choices for the current round and shuffle them
+
+def get_game_session_track_objects(game_session) -> QuerySet[GameSessionTrack]:
+    """Get all GameSessionTrack objects for a game session."""
+    return GameSessionTrack.objects.filter(session=game_session)
+
+
+def create_game_round(game_session, correct_track, pks, order):
+    """Create a single game round with one correct and two incorrect tracks."""
+    non_correct_pks = [pk for pk in pks if pk != correct_track.pk]
+    incorrect_tracks = RaceTrack.objects.filter(
+        pk__in=sample(non_correct_pks, k=2),
+    )
+
+    return GameSessionTrack.objects.create(
+        session=game_session,
+        correct_track=correct_track,
+        incorrect_track_1=incorrect_tracks[0],
+        incorrect_track_2=incorrect_tracks[1],
+        order=order,
+    )
+
+
+@login_required
+def start_session(request):
+    pks = list(RaceTrack.objects.values_list("pk", flat=True))
+    if len(pks) < MIN_TRACKS_FOR_SESSION:
+        return redirect("games:home")
+
+    game_session = GameSession.objects.create(user=request.user)
+
+    # Select random tracks for the session
+    num_rounds = min(10, len(pks) - 1)
+    selected_tracks = list(
+        RaceTrack.objects.filter(
+            pk__in=sample(pks, k=num_rounds),
+        ),
+    )
+    shuffle(selected_tracks)  # Randomize the order of tracks
+
+    for i, track in enumerate(selected_tracks):
+        create_game_round(game_session, track, pks, i)
+
+    return redirect("games:famous_tracks")
+
+
+@login_required
+def famous_tracks(request):
+    if request.method == "POST":
+        return handle_track_submission(request)
+
+    return handle_track_display(request)
+
+
+def handle_track_display(request):
+    """Handle GET request for track display."""
+    game_session = get_active_game_session(request.user)
+
+    if not game_session:
+        return redirect("games:start_session")
+
+    game_session_track = get_current_track(game_session)
+    if not game_session_track:
+        return redirect("games:start_session")
+
     track_list = [
         game_session_track.correct_track,
         game_session_track.incorrect_track_1,
@@ -122,31 +114,62 @@ def famous_tracks(request):
     ]
     shuffle(track_list)
 
-    # Get status of game session
-    rounds = {}
-    number_of_rounds = game_session.tracks.count()
-    for track_round in range(number_of_rounds):
-        rounds[track_round + 1] = (
-            GameSessionTrack.objects.filter(
-                session=game_session,
-                order=track_round,
-            )
-            .first()
-            .score
-        )
-
-    # Get round number for the current round
-    current_round = game_session_track.order + 1
+    rounds = {
+        i + 1: get_game_session_track_objects(game_session)
+        .filter(order=i)
+        .first()
+        .score
+        for i in range(game_session.tracks.count())
+    }
 
     context = {
         "track_list": track_list,
         "correct_track_pk": game_session_track.correct_track.pk,
         "rounds": rounds,
-        "current_round": current_round,
-        "number_of_rounds": number_of_rounds,
+        "current_round": game_session_track.order + 1,
+        "number_of_rounds": game_session.tracks.count(),
     }
 
     return render(request, "games/famous_tracks.html", context)
+
+
+def handle_track_submission(request):
+    """Handle POST request for track submission."""
+    form = TrackChoiceForm(request.POST)
+    if not form.is_valid():
+        return redirect("games:home")
+
+    game_session = get_active_game_session(request.user)
+    if not game_session:
+        return redirect("games:home")
+
+    game_session_track = get_current_track(game_session)
+    track_pk = uuid.UUID(form.cleaned_data["track"])
+
+    # Update score
+    is_correct = game_session_track.correct_track.pk == track_pk
+    game_session_track.score = 1 if is_correct else -1
+    game_session_track.save()
+
+    # Check if session is complete
+    if game_session_track.order == game_session.tracks.count() - 1:
+        return complete_session(request, game_session)
+
+    return redirect("games:famous_tracks")
+
+
+def complete_session(request, game_session):
+    """Complete the game session and update scores."""
+    total_score = get_game_session_track_objects(game_session).filter(score=1).count()
+    game_session.score = total_score
+    game_session.is_completed = True
+    game_session.save()
+
+    score, _ = Score.objects.get_or_create(user=request.user)
+    score.score += total_score
+    score.save()
+
+    return redirect("games:session_complete")
 
 
 def session_complete(request):
@@ -188,3 +211,23 @@ def session_complete(request):
     }
 
     return render(request, "games/session_complete.html", context)
+
+
+@login_required
+def restart_session(request):
+    """Restart the game session, resetting all scores."""
+    game_session = get_active_game_session(request.user)
+    if game_session:
+        game_session.delete()
+
+    return redirect("games:start_session")
+
+
+@login_required
+def quit_session(request):
+    """Quit the game session."""
+    game_session = get_active_game_session(request.user)
+    if game_session:
+        game_session.delete()
+
+    return redirect("games:home")
