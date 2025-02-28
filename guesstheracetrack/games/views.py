@@ -214,22 +214,17 @@ def session_complete(request):
 def restart_session(request):
     """Restart the game session, resetting all scores."""
     game_session = get_active_game_session(request.user)
-    if not game_session:
-        return redirect("games:start_session")
+    if game_session:
+        game_session.delete()
 
-    for track in get_game_session_track_objects(game_session):
-        track.score = 0
-        track.save()
-
-    return redirect("games:famous_tracks")
+    return redirect("games:start_session")
 
 
 @login_required
 def quit_session(request):
     """Quit the game session."""
     game_session = get_active_game_session(request.user)
-    if not game_session:
-        return redirect("games:start_session")
+    if game_session:
+        game_session.delete()
 
-    game_session.delete()
     return redirect("games:home")
