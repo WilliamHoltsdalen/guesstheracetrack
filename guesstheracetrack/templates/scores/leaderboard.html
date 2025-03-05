@@ -1,0 +1,49 @@
+{% extends "../base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+  {{ track.name }}
+{% endblock title %}
+{% block page_css %}
+  <link href="{% static 'css/leaderboard.css' %}" rel="stylesheet" />
+{% endblock page_css %}
+{% block content %}
+  <div class="container overflow-scroll container-fluid d-flex flex-column h-100">
+    <div class="row d-flex flex-column">
+      <div class="col m-5">
+        <div class="row ms-5 mt-5">
+          <div class="col">
+            <div class="row m-0 py-5 pt-4">
+              <h1>Leaderboard</h1>
+            </div>
+            <div class="row m-0 py-5 pt-0 container-fluid d-flex flex-column bg-danger">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Number of games played</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in leaderboard %}
+                    <tr>
+                      <th scope="row">{{ entry.rank }}</th>
+                      <td>{{ entry.name }}</td>
+                      <td>{{ entry.score }}</td>
+                      <td>{{ entry.games_played }}</td>
+                    </tr>
+                  {% empty %}
+                    <p>No leaderboard yet</p>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
