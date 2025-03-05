@@ -30,6 +30,7 @@ urlpatterns = [
         "landing_page/",
         include("guesstheracetrack.landing_page.urls", namespace="landing_page"),
     ),
+    path("scores/", include("guesstheracetrack.scores.urls", namespace="scores")),
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
