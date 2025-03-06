@@ -1,0 +1,98 @@
+{% extends "../base.html" %}
+
+{% load static i18n %}
+
+{% block title %}
+  Competitive Mode
+{% endblock title %}
+{% block page_css %}
+  <link href="{% static 'css/famous_tracks.css' %}" rel="stylesheet" />
+{% endblock page_css %}
+{% block content %}
+  <div id="segment-container">
+    <img id="track-segment-1"
+         src=""
+         alt="Track Segment"
+         style="width: 20%;
+                height: auto" />
+  </div>
+  <div id="segment-container">
+    <img id="track-segment-2"
+         src=""
+         alt="Track Segment"
+         style="width: 20%;
+                height: auto" />
+  </div>
+  <h1>WebSocket Test</h1>
+  <button id="connect">Connect</button>
+  <button id="send" disabled>Send Test Message</button>
+  <button id="trigger-server">Trigger Server Message</button>
+  <div id="status">Disconnected</div>
+  <div id="messages"></div>
+  <script>
+    let socket = null;
+    const statusDiv = document.getElementById('status');
+    const messagesDiv = document.getElementById('messages');
+    const connectBtn = document.getElementById('connect');
+    const sendBtn = document.getElementById('send');
+    const triggerBtn = document.getElementById('trigger-server');
+    const image1 = document.getElementById('track-segment-1');
+    const image2 = document.getElementById('track-segment-2');
+
+    function addMessage(message) {
+      const el = document.createElement('div');
+      el.textContent = message;
+      messagesDiv.appendChild(el);
+    }
+
+    connectBtn.addEventListener('click', function() {
+      if (socket) {
+        socket.close();
+        socket = null;
+      }
+
+      statusDiv.textContent = "Connecting...";
+
+      // Create WebSocket connection
+      socket = new WebSocket('ws://' + window.location.host + '/ws/track_segments/');
+
+      socket.onopen = function(e) {
+        statusDiv.textContent = "Connected";
+        sendBtn.disabled = false;
+        addMessage("Connection established");
+      };
+
+      socket.onmessage = function(e) {
+        addMessage("Received: " + e.data);
+        console.log("Message received:", e.data);
+        const data = JSON.parse(e.data);
+        image1.src = data.message;
+      };
+
+      socket.onclose = function(e) {
+        statusDiv.textContent = "Disconnected";
+        sendBtn.disabled = true;
+        addMessage("Connection closed: " + e.code);
+      };
+
+      socket.onerror = function(e) {
+        addMessage("Error: " + e);
+        console.error("WebSocket error:", e);
+      };
+    });
+
+    sendBtn.addEventListener('click', function() {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        const message = "Hello from client at " + new Date().toLocaleTimeString();
+        socket.send(JSON.stringify({
+          message: message
+        }));
+        addMessage("Sent: " + message);
+      }
+    });
+
+    triggerBtn.addEventListener('click', function() {
+      fetch('./start_competitive_mode/')
+    });
+  </script>
+{% endblock content %}
