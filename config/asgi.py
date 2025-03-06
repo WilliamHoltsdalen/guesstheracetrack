@@ -16,7 +16,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 
-from config.routing import websocket_routes
+from config.routing import websocket_urlpatterns
 
 # This allows easy placement of apps within the interior
 # guesstheracetrack directory.
@@ -36,9 +36,8 @@ application = ProtocolTypeRouter(
     {
         # Django's ASGI application to handle traditional HTTP requests
         "http": django_asgi_app,
-        # WebSocket chat handler
         "websocket": AllowedHostsOriginValidator(
-            AuthMiddlewareStack(URLRouter(websocket_routes))
+            AuthMiddlewareStack(URLRouter(websocket_urlpatterns))
         ),
     }
 )
