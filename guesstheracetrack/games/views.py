@@ -1,7 +1,10 @@
+import time
 import uuid
 from random import sample
 from random import shuffle
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.shortcuts import redirect
@@ -13,6 +16,7 @@ from .forms import TrackChoiceForm
 from .models import GameSession
 from .models import GameSessionTrack
 from .models import RaceTrack
+from .utils import SegmentImage
 
 MIN_TRACKS_FOR_SESSION = 3
 
@@ -231,3 +235,38 @@ def quit_session(request):
         game_session.delete()
 
     return redirect("games:home")
+
+
+@login_required
+def competitive_mode(request):
+    return render(request, "games/competitive_mode.html")
+
+
+@login_required
+def start_competitive_mode(request):
+    """A view to trigger sending a test message"""
+
+    game_session = get_active_game_session(request.user)
+    track_sessions = get_game_session_track_objects(game_session)
+
+    image_path = track_sessions[0].correct_track.image.url
+    segmenter = SegmentImage(image_path, 2)  # Example: 8 segments
+    segments = segmenter()  # Call the instance to get segments
+
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "track_segments",
+        {
+            "type": "send_segments",
+            "message": segments[0],
+        },
+    )
+    time.sleep(1)
+    async_to_sync(channel_layer.group_send)(
+        "track_segments",
+        {
+            "type": "send_segments",
+            "message": segments[1],
+        },
+    )
+    return render(request, "games/competitive_mode.html")
