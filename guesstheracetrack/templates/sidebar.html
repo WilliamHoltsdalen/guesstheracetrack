@@ -115,7 +115,8 @@
       </a>
     </li>
     <li>
-      <a href="#" class="nav-link text-white">
+      <a href="{% url 'scores:leaderboard' %}"
+         class="nav-link {% if request.path|slice:'0:20' == '/scores/leaderboard/' %}active{% endif %}">
         <svg class="bi me-2" width="16" height="16">
           <use xlink:href="#table"></use>
         </svg>
