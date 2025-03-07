@@ -1,3 +1,4 @@
+import math
 import time
 import uuid
 from random import sample
@@ -237,36 +238,46 @@ def quit_session(request):
     return redirect("games:home")
 
 
+def get_segments(game_session):
+    """Get the segments for the game session."""
+    track_sessions = get_game_session_track_objects(game_session)
+
+    image_path = track_sessions[1].correct_track.image.url
+    segmenter = SegmentImage(image_path, 4)
+    return segmenter()
+
+
 @login_required
 def competitive_mode(request):
-    return render(request, "games/competitive_mode.html")
+    game_session = get_active_game_session(request.user)
+    if not game_session:
+        return redirect("games:start_session")
+    segment_count = len(get_segments(game_session))
+    count_root = range(int(math.sqrt(segment_count)))
+    context = {
+        "i": count_root,
+        "j": count_root,
+    }
+    return render(request, "games/competitive_mode.html", context)
 
 
 @login_required
 def start_competitive_mode(request):
-    """A view to trigger sending a test message"""
-
     game_session = get_active_game_session(request.user)
-    track_sessions = get_game_session_track_objects(game_session)
+    segments = get_segments(game_session)
+    segment_count = len(segments)
 
-    image_path = track_sessions[0].correct_track.image.url
-    segmenter = SegmentImage(image_path, 2)  # Example: 8 segments
-    segments = segmenter()  # Call the instance to get segments
+    shuffle(segments)
 
     channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        "track_segments",
-        {
-            "type": "send_segments",
-            "message": segments[0],
-        },
-    )
-    time.sleep(1)
-    async_to_sync(channel_layer.group_send)(
-        "track_segments",
-        {
-            "type": "send_segments",
-            "message": segments[1],
-        },
-    )
+    for i in range(segment_count):
+        async_to_sync(channel_layer.group_send)(
+            "track_segments",
+            {
+                "type": "send_segments",
+                "message": segments[i],
+            },
+        )
+        time.sleep(1)
+
     return render(request, "games/competitive_mode.html")
