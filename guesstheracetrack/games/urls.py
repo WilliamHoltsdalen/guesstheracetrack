@@ -1,10 +1,12 @@
 from django.urls import path
 
+from .views import competitive_mode
 from .views import famous_tracks
 from .views import home
 from .views import quit_session
 from .views import restart_session
 from .views import session_complete
+from .views import start_competitive_mode
 from .views import start_session
 
 app_name = "games"
@@ -27,4 +29,10 @@ urlpatterns = [
         name="restart_session",
     ),
     path("famous_tracks/quit_session/", view=quit_session, name="quit_session"),
+    path("competitive_mode/", view=competitive_mode, name="competitive_mode"),
+    path(
+        "competitive_mode/start_competitive_mode/",
+        view=start_competitive_mode,
+        name="start_competitive_mode",
+    ),
 ]

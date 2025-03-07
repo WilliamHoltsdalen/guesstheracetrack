@@ -1,0 +1,44 @@
+.segments-container {
+
+}
+
+.image-background-div {
+  background-color: #000000;
+}
+
+.segment-image {
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.segment-image.loaded {
+  opacity: 1;
+}
+
+@media (min-width: 540px) {
+  .segment-image {
+    max-width: 50px;
+    aspect-ratio: 250 / 150;
+  }
+}
+
+@media (min-width: 750px) {
+  .segment-image {
+    max-width: 100px;
+    aspect-ratio: 250 / 150;
+  }
+}
+
+@media (min-width: 900px) {
+  .segment-image {
+    max-width: 150px;
+    aspect-ratio: 250 / 150;
+  }
+}
+
+@media (min-width: 1400px) {
+  .segment-image {
+    max-width: 250px;
+    aspect-ratio: 250 / 150;
+  }
+}
