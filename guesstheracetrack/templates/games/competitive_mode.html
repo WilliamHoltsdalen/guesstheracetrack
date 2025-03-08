@@ -3,49 +3,121 @@
 {% load static i18n %}
 
 {% block title %}
-  Competitive Mode
+  {{ track.name }}
 {% endblock title %}
 {% block page_css %}
   <link href="{% static 'css/competitive_mode.css' %}" rel="stylesheet" />
 {% endblock page_css %}
 {% block content %}
-  <div class="segments-container mt-5">
-    {% for _ in i %}
-      <div class="row flex-row justify-content-center">
-        {% with forloop.counter as outer_counter %}
-          {% for _ in j %}
-            <div class="col-auto p-0">
-              <div class="image-background-div">
-                <img class="segment-image"
-                     id="{{ forloop.counter }}_{{ outer_counter }}"
-                     src="/media/segments/black.png"
-                     alt="Track Segment" />
-              </div>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col ms-5 mt-5 quiz-card">
+        <div class="container image-container">
+          {% for _ in i %}
+            <div class="row grid-row m-0">
+              {% with forloop.counter as outer_counter %}
+                {% for _ in j %}
+                  <div class="col grid-col p-0">
+                    <img class="segment-image {% if outer_counter == 1 and forloop.counter == 1 %}segment-top-left{% endif %} {% if outer_counter == 1 and forloop.counter == j|length %}segment-top-right{% endif %} {% if outer_counter == i|length and forloop.counter == 1 %}segment-bottom-left{% endif %} {% if outer_counter == i|length and forloop.counter == j|length %}segment-bottom-right{% endif %}"
+                         id="{{ forloop.counter }}_{{ outer_counter }}"
+                         src="/media/segments/black.png"
+                         alt="Track Segment" />
+                  </div>
+                {% endfor %}
+              {% endwith %}
             </div>
           {% endfor %}
-        {% endwith %}
+        </div>
+        <div class="row ms-5 mt-5">
+          <div class="col">
+            <h2>Which track is this?</h2>
+          </div>
+          <div class="col ">
+            <span class="round-info badge">Round {{ current_round }} / {{ number_of_rounds }}</span>
+          </div>
+        </div>
+        <form action="{% url 'games:competitive_mode' %}" method="post">
+          <div class="row ms-5 mt-1 track-choices-row">
+            {% csrf_token %}
+            <div class="col track-choices-col">
+              {% for track in track_list %}
+                <div class="form-check">
+                  <input required
+                         class="form-check-input"
+                         type="radio"
+                         name="track"
+                         id="{{ track.pk }}"
+                         value="{{ track.pk }}" />
+                  <label class="form-check-label" for="{{ track.pk }}">
+                    <p class="track-name">{{ track.name }}</p>
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row ms-5 mt-3 button-row">
+            <div class="col-auto text-end">
+              <a href="#" class="invisible btn btn-previous">Previous</a>
+            </div>
+            <div class="col text-start">
+              <button id="submit" type="submit" class="btn btn-submit mb-3">Submit</button>
+            </div>
+          </div>
+        </form>
       </div>
-    {% endfor %}
+      <!-- Overview card -->
+      <div class="col-3 overview-card ms-5 mt-5 me-5">
+        <div class="row m-0 py-5 pt-4 container-fluid d-flex flex-column h-100">
+          <div class="col d-flex flex-column justify-content-between">
+            <!-- Card header -->
+            <div class="row overview-row">
+              <h2 class="overview overview-header">Overview</h2>
+            </div>
+            {% for round, score in rounds.items %}
+              <div class="row align-items-center overview-row">
+                <div class="col">
+                  <p class="overview">Round {{ round }}</p>
+                </div>
+                <div class="col round-status">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       width="30"
+                       height="30"
+                       {% if score >= 1 %} class="bi bi-circle bi-circle-correct" {% elif score == -1 %} class="bi bi-circle bi-circle-wrong" {% else %} class="bi bi-circle" {% endif %}
+                       viewBox="-1 0 19 15">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                  </svg>
+                </div>
+              </div>
+            {% endfor %}
+            <div class="row session-controls d-flex justify-content-evenly ">
+              <div class="col-auto">
+                <a href="{% url 'games:restart_session' %}"
+                   class="btn btn-primary btn-submit">Restart</a>
+              </div>
+              <div class="col-auto">
+                <a href="{% url 'games:quit_session' %}" class="btn btn-danger">Quit</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <h1>WebSocket Test</h1>
   <button id="connect">Connect</button>
   <button id="send" disabled>Send Test Message</button>
   <button id="trigger-server">Trigger Server Message</button>
-  <div id="status">Disconnected</div>
-  <div id="messages"></div>
   <script>
-    const statusDiv = document.getElementById('status');
-    const messagesDiv = document.getElementById('messages');
     const connectBtn = document.getElementById('connect');
     const sendBtn = document.getElementById('send');
     const triggerBtn = document.getElementById('trigger-server');
+    const submitBtn = document.getElementById('submit');
 
     let socket = null;
 
     function addMessage(message) {
       const el = document.createElement('div');
       el.textContent = message;
-      messagesDiv.appendChild(el);
     }
 
     connectBtn.addEventListener('click', function() {
@@ -54,21 +126,16 @@
         socket = null;
       }
 
-      statusDiv.textContent = "Connecting...";
-
       // Create WebSocket connection
       socket = new WebSocket('ws://' + window.location.host + '/ws/track_segments/');
 
       socket.onopen = function(e) {
-        statusDiv.textContent = "Connected";
         sendBtn.disabled = false;
-        addMessage("Connection established");
+        console.log("Connection established");
       };
 
       socket.onmessage = function(e) {
         const message = JSON.parse(e.data).message;
-
-        addMessage("Received: " + message);
         console.log("Message received:", message);
 
         if (message.segment) {
@@ -79,13 +146,11 @@
       };
 
       socket.onclose = function(e) {
-        statusDiv.textContent = "Disconnected";
         sendBtn.disabled = true;
-        addMessage("Connection closed: " + e.code);
+        console.log("Connection closed: " + e.code);
       };
 
       socket.onerror = function(e) {
-        addMessage("Error: " + e);
         console.error("WebSocket error:", e);
       };
     });
@@ -96,12 +161,30 @@
         socket.send(JSON.stringify({
           message: message
         }));
-        addMessage("Sent: " + message);
+        console.log("Sent: " + message);
       }
     });
 
     triggerBtn.addEventListener('click', function() {
-      fetch('./start_competitive_mode/')
+      //Tell server to start sending segments with secure post request and csrf token
+      const csrf_token = "{{ csrf_token }}";
+      fetch('./', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrf_token
+        },
+        body: JSON.stringify({
+          message: "start_sending_segments"
+        })
+      });
+    });
+
+    submitBtn.addEventListener('click', function() {
+      if (socket) {
+        socket.close();
+        socket = null;
+      }
     });
   </script>
 {% endblock content %}
