@@ -39,9 +39,13 @@ class GameSession(models.Model):
     end_time = models.DateTimeField(null=True, blank=True)
     score = models.IntegerField(default=0)
     is_completed = models.BooleanField(default=False)
+    game_type = models.CharField(max_length=255, default="")
 
     def __str__(self):
-        return f"GameSession {self.id} - {self.user}"
+        return (
+            f"GameSession {self.id} - {self.user} - {self.game_type} - "
+            f"{self.score} points"
+        )
 
 
 class GameSessionTrack(models.Model):
@@ -70,6 +74,8 @@ class GameSessionTrack(models.Model):
     )
     score = models.IntegerField(default=0)
     order = models.IntegerField(default=0)
+    revealed_at = models.DateTimeField(null=True, blank=True)
+    submitted_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         unique_together = (
@@ -86,16 +92,3 @@ class GameSessionTrack(models.Model):
             f"{self.incorrect_track_1.name}, Incorrect 2: "
             f"{self.incorrect_track_2.name} ({self.score} points)"
         )
-
-
-class Hint(models.Model):
-    game_session = models.ForeignKey(
-        GameSession,
-        on_delete=models.CASCADE,
-        related_name="hints",
-    )
-    image_segment = models.ImageField(upload_to="hints/")
-    revealed_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Hint for {self.game_session.id}"
