@@ -1,0 +1,40 @@
+
+.footer {
+  background: #060e19;
+  padding: 48px 0px;
+  margin: 0;
+  height: auto;
+}
+
+.footer-grid {
+  padding: 0;
+  margin-bottom: 12px;
+  max-width: 1080px;
+}
+
+.footer-col {
+  padding: 0 80px;
+}
+
+.footer-logo {
+  width: 100px;
+}
+
+.footer-text {
+  color: var(--lavender);
+  margin-bottom: 8px;
+}
+
+.footer-divider {
+  background: #1b3670;
+  height: 1px;
+  margin-top: 16px;
+  width: 100%;
+  max-width: 1080px;
+}
+
+.footer-bottom {
+  padding-top: 16px;
+  max-width: 1080px;
+  width: 100%;
+}

@@ -1,0 +1,35 @@
+{% load static i18n %}
+
+<div class="sticky-nav-div">
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">
+      <div class="row">
+        <div class="col nav-item">
+          <img class="navbar-logo"
+               src="{% static 'images/logos/logo.png' %}"
+               height="40"
+               alt="Guess The Race Track" />
+        </div>
+        <div class="col my-auto">
+          <p class="navbar-brand-name text-white my-auto">Guess The Race Track</p>
+        </div>
+      </div>
+    </a>
+    <div class="row ms-auto">
+      <div class="col nav-item">
+        <a href="#" class="me-3 nav-link">Blog</a>
+      </div>
+      <div class="col nav-item">
+        <a href="#" class="me-3 nav-link text-nowrap">Contact us</a>
+      </div>
+      <div class="col nav-item">
+        <a href="#" class="me-3 nav-link">Leaderboard</a>
+      </div>
+      <div class="col nav-item">
+        <div class="login-btn-wrapper">
+          <a href="{% url 'games:home' %}" class="btn login-btn">Login</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

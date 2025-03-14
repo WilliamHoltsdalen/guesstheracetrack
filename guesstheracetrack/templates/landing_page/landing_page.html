@@ -7,42 +7,12 @@
 {% endblock title %}
 {% block page_css %}
   <link href="{% static 'css/landing_page.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/navbar.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/footer.css' %}" rel="stylesheet" />
 {% endblock page_css %}
 {% block body %}
   <!-- Navbar -->
-  <div class="sticky-nav-div">
-    <nav class="navbar navbar-expand-lg">
-      <a class="navbar-brand" href="#">
-        <div class="row">
-          <div class="col nav-item">
-            <img class="navbar-logo"
-                 src="{% static 'images/logos/logo.png' %}"
-                 height="40"
-                 alt="Guess The Race Track" />
-          </div>
-          <div class="col my-auto">
-            <p class="navbar-brand-name text-white my-auto">Guess The Race Track</p>
-          </div>
-        </div>
-      </a>
-      <div class="row ms-auto">
-        <div class="col nav-item">
-          <a href="#" class="me-3 nav-link">Blog</a>
-        </div>
-        <div class="col nav-item">
-          <a href="#" class="me-3 nav-link text-nowrap">Contact us</a>
-        </div>
-        <div class="col nav-item">
-          <a href="#" class="me-3 nav-link">Leaderboard</a>
-        </div>
-        <div class="col nav-item">
-          <div class="login-btn-wrapper">
-            <a href="{% url 'games:home' %}" class="btn login-btn">Login</a>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </div>
+  {% include "landing_page/navbar.html" %}
   <main>
     <div class="container-fluid page-container">
       <!-- Hero Section -->
@@ -89,43 +59,5 @@
       </div>
     </div>
   </main>
-  <footer class="footer">
-    <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
-      <div class="row footer-grid">
-        <div class="col-auto footer-col">
-          <div class="row">
-            <img class="footer-logo"
-                 style="width: 100px"
-                 src="{% static 'images/logos/logo.png' %}"
-                 alt="Guess The Race Track" />
-          </div>
-          <div class="row"></div>
-          <div class="row"></div>
-        </div>
-        <div class="col-auto footer-col">
-          <p class="footer-text">Leaderboard</p>
-          <p class="footer-text">Blog</p>
-          <p class="footer-text">About us</p>
-        </div>
-        <div class="col-auto footer-col">
-          <p class="footer-text">Contact us</p>
-          <p class="footer-text">Privacy policy</p>
-          <p class="footer-text">Report a bug</p>
-        </div>
-      </div>
-      <div class="row footer-divider"></div>
-      <div class="row footer-bottom justify-content-between">
-        <div class="col-auto">
-          <div class="copyright-text">
-            <p class="footer-text">© 2025 Guess The Race Track</p>
-          </div>
-        </div>
-        <div class="col-auto">
-          <p class="footer-text ">
-            Made by <a href="https://github.com/williamholtsdalen" target="_blank">William Holtsdalen</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </footer>
+  {% include "landing_page/footer.html" %}
 {% endblock body %}
