@@ -1,5 +1,6 @@
 body {
   background-color: var(--owhite);
+  width: 100vw;
 }
 
 .page-container {
@@ -8,8 +9,8 @@ body {
 }
 
 .hero-section {
+  background: var(--lavender);
   height: 55vh;
-  width: 50%;
   margin: 0;
   padding: 0;
 }
@@ -21,9 +22,10 @@ body {
 }
 
 .hero-header {
-  font-size: 4.5rem;
+  color: var(--blue);
+  font-size: 4rem;
   letter-spacing: 0.1rem;
-  font-weight: 800;
+  font-weight: 600;
   opacity: 0;
   transform: translateY(-10px);
   animation: fadeIn 1s ease-in-out forwards;
@@ -33,4 +35,9 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+
+.page-row {
+    max-width: 100vw;
 }
