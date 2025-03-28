@@ -2,7 +2,7 @@
 
 <div class="sticky-nav-div">
   <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url 'landing_page' %}">
       <div class="row">
         <div class="col nav-item">
           <img class="navbar-logo"
@@ -23,7 +23,7 @@
         <a href="#" class="me-3 nav-link text-nowrap">Contact us</a>
       </div>
       <div class="col nav-item">
-        <a href="#" class="me-3 nav-link">Leaderboard</a>
+        <a href="{% url 'scores:leaderboard' %}" class="me-3 nav-link">Leaderboard</a>
       </div>
       <div class="col nav-item">
         <div class="login-btn-wrapper">
