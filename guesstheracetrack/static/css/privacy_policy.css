@@ -9,7 +9,7 @@ body {
 }
 
 .content-column {
-  max-width: 50vw;
+  max-width: 60vw;
 }
 
 .hero-row {
@@ -28,11 +28,9 @@ body {
   justify-content: center;
 }
 
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.content-row {
+  margin-top: 5vh;
+  justify-content: center;
 }
 
 h1 {
@@ -44,4 +42,23 @@ h1 {
   transform: translateY(-10px);
   animation: fadeIn 1s ease-in-out forwards;
   text-align: center;
+}
+
+h2 {
+  margin-top: 1rem;a
+}
+
+h3 {
+  margin-top: 2rem;
+}
+
+blockquote {
+  padding: 0 1.5rem 0 1.5rem;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
