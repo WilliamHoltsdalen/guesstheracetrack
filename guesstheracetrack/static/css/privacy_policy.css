@@ -8,9 +8,14 @@ body {
   padding: 0;
 }
 
-.hero-section {
+.content-column {
+  max-width: 50vw;
+}
+
+.hero-row {
   background: var(--lavender);
-  height: 55vh;
+  display: flex;
+  justify-content: center;
   margin: 0;
   padding: 0;
 }
@@ -19,17 +24,10 @@ body {
   position: relative;
   height: auto;
   margin-top: 30vh;
+  margin-bottom: 10vh;
+  justify-content: center;
 }
 
-.hero-header {
-  color: var(--blue);
-  font-size: 4rem;
-  letter-spacing: 0.1rem;
-  font-weight: 600;
-  opacity: 0;
-  transform: translateY(-10px);
-  animation: fadeIn 1s ease-in-out forwards;
-}
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -37,7 +35,13 @@ body {
     }
 }
 
-
-.page-row {
-    max-width: 100vw;
+h1 {
+  color: var(--blue);
+  font-size: 4rem;
+  letter-spacing: 0.1rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 1s ease-in-out forwards;
+  text-align: center;
 }
