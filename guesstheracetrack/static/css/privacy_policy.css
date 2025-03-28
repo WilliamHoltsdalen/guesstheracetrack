@@ -29,7 +29,7 @@ body {
 }
 
 .content-row {
-  margin-top: 5vh;
+  margin: 5vh 0 5vh 0;
   justify-content: center;
 }
 
