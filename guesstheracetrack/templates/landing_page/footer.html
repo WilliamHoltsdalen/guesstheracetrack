@@ -1,0 +1,53 @@
+{% load static i18n %}
+
+<footer class="footer">
+  <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
+    <div class="row footer-grid">
+      <div class="col-auto footer-col">
+        <div class="row">
+          <img class="footer-logo"
+               style="width: 100px"
+               src="{% static 'images/logos/logo.png' %}"
+               alt="Guess The Race Track" />
+        </div>
+        <div class="row"></div>
+        <div class="row"></div>
+      </div>
+      <div class="col-auto footer-col">
+        <a class="footer-link" href="{% url 'scores:leaderboard' %}">
+          <p class="footer-text">Leaderboard</p>
+        </a>
+        <a class="footer-link" href="#">
+          <p class="footer-text">Blog</p>
+        </a>
+        <a class="footer-link" href="#">
+          <p class="footer-text">About us</p>
+        </a>
+      </div>
+      <div class="col-auto footer-col">
+        <a class="footer-link" href="#">
+          <p class="footer-text">Contact us</p>
+        </a>
+        <a class="footer-link" href="{% url 'landing_page:privacy_policy' %}">
+          <p class="footer-text">Privacy policy</p>
+        </a>
+        <a class="footer-link" href="#">
+          <p class="footer-text">Report a bug</p>
+        </a>
+      </div>
+    </div>
+    <div class="row footer-divider"></div>
+    <div class="row footer-bottom justify-content-between">
+      <div class="col-auto">
+        <div class="copyright-text">
+          <p class="footer-text">© 2025 Guess The Race Track</p>
+        </div>
+      </div>
+      <div class="col-auto">
+        <p class="footer-text ">
+          Made by <a href="https://github.com/williamholtsdalen" target="_blank">William Holtsdalen</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
