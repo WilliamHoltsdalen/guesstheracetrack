@@ -11,13 +11,27 @@
   margin-bottom: 12px;
 }
 
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
 .footer-logo {
   width: 100px;
 }
 
 .footer-text {
+  color: var(--owhite);
+}
+
+.footer-link {
   color: var(--lavender);
+  text-decoration: none;
   margin-bottom: 8px;
+}
+
+.footer-link:hover {
+  color: var(--blue);
 }
 
 .footer-divider {
@@ -32,6 +46,10 @@
   padding-top: 16px;
   max-width: 992px;
   width: 100%;
+}
+
+.footer-author {
+  text-decoration: underline;
 }
 
 @media only screen and (max-width: 600px) {

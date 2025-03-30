@@ -10,44 +10,32 @@
              alt="Guess The Race Track" />
       </div>
       <div class="col-auto footer-col">
-        <a class="footer-link" href="{% url 'scores:leaderboard' %}">
-          <p class="footer-text">Leaderboard</p>
-        </a>
-        <a class="footer-link" href="#">
-          <p class="footer-text">Blog</p>
-        </a>
-        <a class="footer-link" href="#">
-          <p class="footer-text">About us</p>
-        </a>
+        <a class="footer-link" href="{% url 'scores:leaderboard' %}">Leaderboard</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="#">About us</a>
       </div>
       <div class="col-auto footer-col">
-        <a class="footer-link" href="#">
-          <p class="footer-text">Contact us</p>
-        </a>
-        <a class="footer-link" href="{% url 'landing_page:privacy_policy' %}">
-          <p class="footer-text">Privacy policy</p>
-        </a>
-        <a class="footer-link" href="#">
-          <p class="footer-text">Report a bug</p>
-        </a>
+        <a class="footer-link" href="#">Contact us</a>
+        <a class="footer-link" href="{% url 'landing_page:privacy_policy' %}">Privacy policy</a>
+        <a class="footer-link" href="#">Report a bug</a>
       </div>
     </div>
     <span class="row footer-divider"></span>
     <div class="row footer-bottom justify-content-between">
       <div class="col-auto">
-        <div class="copyright-text">
-          <p class="footer-text">
-            ©<script>
+        <div class="footer-text">
+          ©<script>
   document.write(new Date().getFullYear())
 </script>
-            Guess The Race Track
-          </p>
+          Guess The Race Track
         </div>
       </div>
       <div class="col-auto">
-        <p class="footer-text ">
-          Made by <a href="https://github.com/williamholtsdalen" target="_blank">William Holtsdalen</a>
-        </p>
+        <span class="footer-text ">
+          Made by <a class="footer-link footer-author"
+    href="https://github.com/williamholtsdalen"
+    target="_blank">William Holtsdalen</a>
+        </span>
       </div>
     </div>
   </div>
