@@ -3,15 +3,11 @@
 <footer class="footer">
   <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
     <div class="row footer-grid">
-      <div class="col-auto footer-col">
-        <div class="row">
-          <img class="footer-logo"
-               style="width: 100px"
-               src="{% static 'images/logos/logo.png' %}"
-               alt="Guess The Race Track" />
-        </div>
-        <div class="row"></div>
-        <div class="row"></div>
+      <div class="col-auto footer-col logo-col">
+        <img class="footer-logo"
+             style="width: 100px"
+             src="{% static 'images/logos/logo.png' %}"
+             alt="Guess The Race Track" />
       </div>
       <div class="col-auto footer-col">
         <a class="footer-link" href="{% url 'scores:leaderboard' %}">
@@ -36,11 +32,16 @@
         </a>
       </div>
     </div>
-    <div class="row footer-divider"></div>
+    <span class="row footer-divider"></span>
     <div class="row footer-bottom justify-content-between">
       <div class="col-auto">
         <div class="copyright-text">
-          <p class="footer-text">© 2025 Guess The Race Track</p>
+          <p class="footer-text">
+            ©<script>
+  document.write(new Date().getFullYear())
+</script>
+            Guess The Race Track
+          </p>
         </div>
       </div>
       <div class="col-auto">

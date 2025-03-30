@@ -1,31 +1,39 @@
 {% load static i18n %}
 
-<div class="sticky-nav-div">
+<div class="sticky-nav-div ">
   <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="{% url 'landing_page' %}">
-      <div class="row">
-        <div class="col nav-item">
-          <img class="navbar-logo"
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'landing_page' %}">
+        <div class="d-flex align-items-center">
+          <img class="navbar-logo me-3"
                src="{% static 'images/logos/logo.png' %}"
-               height="40"
                alt="Guess The Race Track" />
+          <span class="navbar-brand-name my-auto">Guess The Race Track</span>
         </div>
-        <div class="col my-auto">
-          <p class="navbar-brand-name text-white my-auto">Guess The Race Track</p>
-        </div>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+          <li class="nav-item">
+            <a href="#" class="me-lg-3 nav-link">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="me-lg-3 nav-link text-nowrap">Contact us</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'scores:leaderboard' %}" class="me-lg-3 nav-link">Leaderboard</a>
+          </li>
+        </ul>
       </div>
-    </a>
-    <div class="row ms-auto">
-      <div class="col nav-item">
-        <a href="#" class="me-3 nav-link">Blog</a>
-      </div>
-      <div class="col nav-item">
-        <a href="#" class="me-3 nav-link text-nowrap">Contact us</a>
-      </div>
-      <div class="col nav-item">
-        <a href="{% url 'scores:leaderboard' %}" class="me-3 nav-link">Leaderboard</a>
-      </div>
-      <div class="col nav-item">
+      <button class="navbar-toggler ms-auto"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="nav-item ms-3">
         <div class="login-btn-wrapper">
           <a href="{% url 'games:home' %}" class="btn login-btn">Login</a>
         </div>
