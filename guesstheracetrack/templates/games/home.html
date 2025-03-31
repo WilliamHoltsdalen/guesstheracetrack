@@ -6,38 +6,53 @@
   <link href="{% static 'css/home.css' %}" rel="stylesheet" />
 {% endblock page_css %}
 {% block content %}
-  <div class="container content-container">
-    <form action="{% url 'games:start_session' %}" method="post">
-      {% csrf_token %}
-      <div class="container">
-        <div class="row">
-          <div class="col m-5 mb-0">
-            <h1>Available games</h1>
-          </div>
-          <div class="row">
-            <div class="col m-5">
-              <div class="card game-card">
-                <img class="card-img-top"
-                     src="{% static 'images/racetracks/suzuka.jpg' %}"
-                     alt="Race Track" />
-                <div class="card-body">
-                  <h5 class="card-title">Famous Racetracks</h5>
-                  <p class="card-text">
-                    Guess the <span class="highlighted-word">legendary</span> racetrack from a single image
-                  </p>
-                  <div class="button-row">
-                    {% if user.is_authenticated %}
-                      <a href="{% url 'games:famous_tracks' %}" class="btn btn-primary">Play now</a>
-                    {% else %}
-                      <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
+  <div class="container-fluid content-container">
+    <div class="row">
+      <div class="col m-5 mb-0">
+        <h1>Available games</h1>
+      </div>
+    </div>
+    <div class="row m-5 d-flex justify-content-start">
+      <div class="col card-col me-5">
+        <div class="card game-card">
+          <img class="card-img-top"
+               src="{% static 'images/racetracks/suzuka.jpg' %}"
+               alt="Race Track" />
+          <div class="card-body">
+            <h5 class="card-title">Famous Racetracks</h5>
+            <p class="card-text">
+              Guess the <span class="highlighted-word">legendary</span> racetrack from a single image
+            </p>
+            <div class="button-row">
+              {% if user.is_authenticated %}
+                <a href="{% url 'games:famous_tracks' %}" class="btn btn-primary">Play now</a>
+              {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
+              {% endif %}
             </div>
           </div>
         </div>
       </div>
-    </form>
+      <div class="col card-col mx-5">
+        <div class="card game-card">
+          <img class="card-img-top"
+               src="{% static 'images/racetracks/laguna_segmented.png' %}"
+               alt="Segmented Race Track" />
+          <div class="card-body">
+            <h5 class="card-title">Competitive mode</h5>
+            <p class="card-text">
+              Can you guess the track from a <span class="highlighted-word">gradually appearing</span> image?
+            </p>
+            <div class="button-row">
+              {% if user.is_authenticated %}
+                <a href="{% url 'games:competitive_mode' %}" class="btn btn-primary">Play now</a>
+              {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
