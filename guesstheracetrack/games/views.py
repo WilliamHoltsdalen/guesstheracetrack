@@ -291,6 +291,15 @@ def competitive_mode(request):
     return render(request, "games/competitive_mode.html", context)
 
 
+@login_required
+def competitive_mode_restart_session(request):
+    """Restart the competitive mode session."""
+    game_session = get_active_game_session(request.user, "competitive_mode")
+    if game_session:
+        game_session.delete()
+    return redirect("games:start_session", game_type="competitive_mode")
+
+
 def competitive_mode_handle_post(request):
     """Handle POST request for competitive mode."""
     try:

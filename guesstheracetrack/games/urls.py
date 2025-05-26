@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views import competitive_mode
+from .views import competitive_mode_restart_session
 from .views import competitive_mode_send_segments
 from .views import famous_tracks
 from .views import famous_tracks_quit_session
@@ -24,9 +25,14 @@ urlpatterns = [
         name="session_complete",
     ),
     path(
-        "famous_tracks/restart_session/",
+        "famous_tracks/restart_session/famous_tracks",
         view=famous_tracks_restart_session,
-        name="restart_session",
+        name="restart_famous_tracks_session",
+    ),
+    path(
+        "famous_tracks/restart_session/competitive_mode",
+        view=competitive_mode_restart_session,
+        name="restart_competitive_mode_session",
     ),
     path(
         "famous_tracks/quit_session/",
