@@ -14,7 +14,7 @@ urlpatterns = [
     path("", view=home, name="home"),
     path("famous_tracks/", view=famous_tracks, name="famous_tracks"),
     path(
-        "famous_tracks/start_session/",
+        "start_session/<str:game_type>/",
         view=start_session,
         name="start_session",
     ),

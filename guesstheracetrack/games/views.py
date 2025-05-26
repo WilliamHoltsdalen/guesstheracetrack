@@ -52,13 +52,23 @@ def get_game_session_track_objects(game_session) -> QuerySet[GameSessionTrack]:
     return GameSessionTrack.objects.filter(session=game_session)
 
 
-def start_session(user, game_type) -> None:
+@login_required
+def start_session(request, game_type):
     """Start a new game session for a user of the specified game type."""
+    assert game_type is not None
+    user = request.user
+
+    # End any existing active session for this game_type
+    existing_session = get_active_game_session(user, game_type)
+    if existing_session:
+        existing_session.delete()
+
     pks = list(RaceTrack.objects.values_list("pk", flat=True))
     if len(pks) < MIN_TRACKS_FOR_SESSION:
         return redirect("games:home")
 
     game_session = GameSession.objects.create(user=user, game_type=game_type)
+    assert game_session.pk is not None
 
     # Select random tracks for the session
     num_rounds = min(10, len(pks) - 1)
@@ -71,7 +81,15 @@ def start_session(user, game_type) -> None:
 
     for i, track in enumerate(selected_tracks):
         create_game_round(game_session, track, pks, i)
-    return None
+
+    # Redirect to the specific game view after starting the session
+    if game_type == "famous_tracks":
+        return redirect("games:famous_tracks")
+    if game_type == "competitive_mode":
+        return redirect("games:competitive_mode")
+
+    # Fallback, though should ideally not be reached if game_type is always valid
+    return redirect("games:home")
 
 
 def create_game_round(game_session, correct_track, pks, order):
@@ -187,7 +205,7 @@ def famous_tracks_restart_session(request):
     if game_session:
         game_session.delete()
 
-    return redirect("games:start_session")
+    return redirect("games:start_session", game_type="famous_tracks")
 
 
 @login_required
@@ -206,8 +224,7 @@ def famous_tracks_display_context(request):
     game_session_track = get_current_game_session_track(game_session)
 
     if game_session is None or game_session_track is None:
-        start_session(request.user, "famous_tracks")
-        return redirect("games:famous_tracks")
+        return redirect("games:start_session", game_type="famous_tracks")
 
     track_list = [
         game_session_track.correct_track,
@@ -343,8 +360,7 @@ def competitive_mode_display_context(request):
     game_session = get_active_game_session(request.user, "competitive_mode")
     game_session_track = get_current_game_session_track(game_session)
     if game_session is None or game_session_track is None:
-        start_session(request.user, "competitive_mode")
-        return redirect("games:competitive_mode")
+        return redirect("games:start_session", game_type="competitive_mode")
 
     track_list = [
         game_session_track.correct_track,
