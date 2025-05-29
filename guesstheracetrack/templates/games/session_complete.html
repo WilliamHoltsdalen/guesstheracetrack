@@ -29,7 +29,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg"
                            width="30"
                            height="30"
-                           {% if round_data.score == 1 %} class="bi bi-circle bi-circle-correct" {% elif round_data.score == -1 %} class="bi bi-circle bi-circle-wrong" {% else %} class="bi bi-circle" {% endif %}
+                           {% if round_data.score >= 1 %} class="bi bi-circle bi-circle-correct" {% elif round_data.score == -1 %} class="bi bi-circle bi-circle-wrong" {% else %} class="bi bi-circle" {% endif %}
                            viewBox="-1 0 19 15">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
                       </svg>
@@ -43,7 +43,8 @@
                 <a href="{% url 'games:home' %}" class="btn btn-secondary">Home</a>
               </div>
               <div class="col d-flex justify-content-center">
-                <a href="{% url 'games:start_session' %}" class="btn btn-primary">Play again</a>
+                <a href="{% url 'games:start_session' game_type %}"
+                   class="btn btn-primary">Play again</a>
               </div>
             </div>
           </div>

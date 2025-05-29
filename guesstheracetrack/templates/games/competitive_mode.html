@@ -13,6 +13,8 @@
     <div class="row">
       <div class="col ms-5 mt-5 quiz-card">
         <div class="container image-container">
+          <!-- Floating button positioned over the image grid -->
+          <button id="start-round" class="floating-button">Start Round</button>
           {% for _ in i %}
             <div class="row grid-row m-0">
               {% with forloop.counter as outer_counter %}
@@ -95,7 +97,8 @@
                    class="btn btn-primary btn-submit">Restart</a>
               </div>
               <div class="col-auto">
-                <a href="{% url 'games:quit_session' %}" class="btn btn-danger">Quit</a>
+                <a href="{% url 'games:competitive_mode_quit_session' %}"
+                   class="btn btn-danger">Quit</a>
               </div>
             </div>
           </div>
@@ -103,24 +106,11 @@
       </div>
     </div>
   </div>
-  <h1>WebSocket Test</h1>
-  <button id="connect">Connect</button>
-  <button id="send" disabled>Send Test Message</button>
-  <button id="trigger-server">Trigger Server Message</button>
   <script>
-    const connectBtn = document.getElementById('connect');
-    const sendBtn = document.getElementById('send');
-    const triggerBtn = document.getElementById('trigger-server');
-    const submitBtn = document.getElementById('submit');
-
+    const startRoundBtn = document.getElementById('start-round');
     let socket = null;
 
-    function addMessage(message) {
-      const el = document.createElement('div');
-      el.textContent = message;
-    }
-
-    connectBtn.addEventListener('click', function() {
+    document.addEventListener("DOMContentLoaded", function() {
       if (socket) {
         socket.close();
         socket = null;
@@ -130,7 +120,6 @@
       socket = new WebSocket('ws://' + window.location.host + '/ws/track_segments/');
 
       socket.onopen = function(e) {
-        sendBtn.disabled = false;
         console.log("Connection established");
       };
 
@@ -146,7 +135,6 @@
       };
 
       socket.onclose = function(e) {
-        sendBtn.disabled = true;
         console.log("Connection closed: " + e.code);
       };
 
@@ -155,18 +143,10 @@
       };
     });
 
-    sendBtn.addEventListener('click', function() {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        const message = "Hello from client at " + new Date().toLocaleTimeString();
-        socket.send(JSON.stringify({
-          message: message
-        }));
-        console.log("Sent: " + message);
-      }
-    });
 
-    triggerBtn.addEventListener('click', function() {
-      //Tell server to start sending segments with secure post request and csrf token
+    startRoundBtn.addEventListener('click', function() {
+      startRoundBtn.classList.add('hidden');
+      // Tell server to start sending segments
       const csrf_token = "{{ csrf_token }}";
       fetch('./', {
         method: 'POST',
@@ -178,13 +158,6 @@
           message: "start_sending_segments"
         })
       });
-    });
-
-    submitBtn.addEventListener('click', function() {
-      if (socket) {
-        socket.close();
-        socket = null;
-      }
     });
   </script>
 {% endblock content %}

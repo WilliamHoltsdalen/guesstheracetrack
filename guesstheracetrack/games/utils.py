@@ -1,5 +1,4 @@
 import hashlib
-import os
 import uuid
 from pathlib import Path
 
@@ -62,8 +61,8 @@ class SegmentImage:
                     + f"{i}_{j}"
                     + Path(self.image_path).suffix,
                 )
-                segment_path = os.path.join(settings.MEDIA_URL, segment_filename)  # noqa: PTH118 use of os.path.join is fine here
-                segment_full_path = os.path.join(settings.MEDIA_ROOT, segment_filename)  # noqa: PTH118 use of os.path.join is fine here
+                segment_path = settings.MEDIA_URL / segment_filename
+                segment_full_path = settings.MEDIA_ROOT / segment_filename
                 segment.save(segment_full_path)
 
                 segments_list.append(

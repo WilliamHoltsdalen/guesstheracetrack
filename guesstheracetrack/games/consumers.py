@@ -1,5 +1,6 @@
 import json
 
+from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 
@@ -25,6 +26,9 @@ class TrackSegmentConsumer(AsyncWebsocketConsumer):
         )
 
     async def disconnect(self, close_code):
+        from .views import cancel_send_segments_task
+
+        await sync_to_async(cancel_send_segments_task)()
         await self.channel_layer.group_discard(
             self.group_name,
             self.channel_name,
