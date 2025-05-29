@@ -110,7 +110,7 @@
     const startRoundBtn = document.getElementById('start-round');
     let socket = null;
 
-    document.addEventListener("DOMContentLoaded", function() {
+    startRoundBtn.addEventListener('click', function() {
       if (socket) {
         socket.close();
         socket = null;
@@ -141,10 +141,7 @@
       socket.onerror = function(e) {
         console.error("WebSocket error:", e);
       };
-    });
 
-
-    startRoundBtn.addEventListener('click', function() {
       startRoundBtn.classList.add('hidden');
       // Tell server to start sending segments
       const csrf_token = "{{ csrf_token }}";

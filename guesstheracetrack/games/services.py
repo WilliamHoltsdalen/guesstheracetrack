@@ -9,6 +9,7 @@ from guesstheracetrack.scores.models import Score
 from .models import GameSession
 from .models import GameSessionTrack
 from .models import RaceTrack
+from .utils import SegmentImage
 
 MIN_TRACKS_FOR_SESSION = 3
 MAX_COMP_ROUND_TIME = 10
@@ -160,3 +161,13 @@ def handle_competitive_mode_submission(user, form) -> None:
     # Check if session is complete
     if game_session_track.order == game_session.tracks.count() - 1:
         complete_session(user, "competitive_mode")
+
+
+def competitive_mode_get_segments(request) -> list[dict]:
+    """Get the segments for the game session."""
+    game_session = get_active_game_session(request.user, "competitive_mode")
+    game_session_track = get_current_game_session_track(game_session)
+
+    image_path = game_session_track.correct_track.image.url
+    segmenter = SegmentImage(image_path, 4)
+    return segmenter()

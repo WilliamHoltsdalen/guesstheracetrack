@@ -12,6 +12,7 @@ from django.utils import timezone
 from .forms import TrackChoiceForm
 from .models import GameSession
 from .models import GameSessionTrack
+from .services import competitive_mode_get_segments
 from .services import get_active_game_session
 from .services import get_current_game_session_track
 from .services import get_game_session_track_objects
@@ -21,12 +22,12 @@ from .services import is_session_complete
 from .services import start_new_game_session
 from .tasks import cancel_send_segments_task
 from .tasks import send_segments_task
-from .utils import SegmentImage
-
 
 # ------------------------------------------------------------------------------
 # Views for home page
 # ------------------------------------------------------------------------------
+
+
 def home(request):
     context = {
         "messages": [
@@ -230,9 +231,17 @@ def competitive_mode_handle_post(request) -> HttpResponse:
         body = json.loads(body_unicode)
         if body["message"] == "start_sending_segments":
             competitive_mode_send_segments(request)
-    except Exception:  # noqa: BLE001 This is a blind exception for now
-        cancel_send_segments_task()
+            return redirect("games:competitive_mode")
+    except json.JSONDecodeError:
+        # This is a form submission, not a JSON request
         return competitive_mode_handle_track_submission(request)
+    except Exception:  # noqa: BLE001 This is a blind exception for now
+        # Cancel tasks for this specific session
+        game_session = get_active_game_session(request.user, "competitive_mode")
+        if game_session:
+            cancel_send_segments_task(game_session.id)
+        # Return error response for JSON requests
+        return HttpResponse("Error processing request", status=500)
 
     return redirect("games:competitive_mode")
 
@@ -248,16 +257,6 @@ def competitive_mode_handle_track_submission(request):
         return redirect("games:session_complete", game_type="competitive_mode")
 
     return redirect("games:competitive_mode")
-
-
-def competitive_mode_get_segments(request) -> list[str]:
-    """Get the segments for the game session."""
-    game_session = get_active_game_session(request.user, "competitive_mode")
-    game_session_track = get_current_game_session_track(game_session)
-
-    image_path = game_session_track.correct_track.image.url
-    segmenter = SegmentImage(image_path, 4)
-    return segmenter()
 
 
 def competitive_mode_display_context(request):
@@ -301,9 +300,14 @@ def competitive_mode_send_segments(request):
     game_session = get_active_game_session(request.user, "competitive_mode")
     game_session_track = get_current_game_session_track(game_session)
 
+    # Cancel any existing task for this session before starting a new one
+    cancel_send_segments_task(game_session.id)
+
     segments = competitive_mode_get_segments(request)
     shuffle(segments)
 
-    send_segments_task.delay(segments, "track_segments")
+    # Session-specific group name
+    group_name = f"track_segments_{game_session.id}"
+    send_segments_task.delay(segments, group_name)  # type: ignore[misc]
     game_session_track.revealed_at = timezone.localtime()
     game_session_track.save()

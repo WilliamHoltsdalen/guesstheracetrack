@@ -61,7 +61,10 @@ class SegmentImage:
                     + f"{i}_{j}"
                     + Path(self.image_path).suffix,
                 )
-                segment_path = settings.MEDIA_URL / segment_filename
+                # Convert to string to make it JSON serializable for Celery
+                # Ensure proper URL path joining
+                media_url = settings.MEDIA_URL.rstrip("/")
+                segment_path = f"{media_url}/{segment_filename}"
                 segment_full_path = settings.MEDIA_ROOT / segment_filename
                 segment.save(segment_full_path)
 
