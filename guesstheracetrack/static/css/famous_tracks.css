@@ -102,9 +102,3 @@ body {
 .track-choice-content:hover {
   background-color: var(--teal-bg-blue);
 }
-
-.track-choice-content input[type="radio"]:checked + .track-choice-content {
-  border-color: #007bff;
-  background-color: #e6f0ff;
-  font-weight: bold;
-}
