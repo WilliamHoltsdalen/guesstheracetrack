@@ -19,7 +19,7 @@
                alt="" />
         </div>
         <!-- Text below image & round info -->
-        <div class="row ms-5 mt-5">
+        <div class="row ms-5 mt-5 mb-3">
           <div class="col">
             <h2>Which track is this?</h2>
           </div>
@@ -27,31 +27,22 @@
             <span class="round-info badge">Round {{ current_round }} / {{ number_of_rounds }}</span>
           </div>
         </div>
-        <form action="{% url 'games:famous_tracks' %}" method="post">
+        <form action="{% url 'games:famous_tracks' %}"
+              id="track-choice-form"
+              method="post">
           <div class="row ms-5 mt-1 track-choices-row">
             {% csrf_token %}
-            <div class="col track-choices-col">
+            <div class="col track-choices">
               {% for track in track_list %}
-                <div class="form-check">
-                  <input required
-                         class="form-check-input"
-                         type="radio"
+                <label class="track-choice-label">
+                  <input type="radio"
                          name="track"
-                         id="{{ track.pk }}"
-                         value="{{ track.pk }}" />
-                  <label class="form-check-label" for="{{ track.pk }}">
-                    <p class="track-name">{{ track.name }}</p>
-                  </label>
-                </div>
+                         value="{{ track.pk }}"
+                         required
+                         onchange="submitForm()" />
+                  <div class="track-choice-content">{{ track.name }}</div>
+                </label>
               {% endfor %}
-            </div>
-          </div>
-          <div class="row ms-5 mt-3 button-row">
-            <div class="col-auto text-end">
-              <a href="#" class="invisible btn btn-previous">Previous</a>
-            </div>
-            <div class="col text-start">
-              <button type="submit" class="btn btn-submit mb-3">Submit</button>
             </div>
           </div>
         </form>
@@ -95,4 +86,10 @@
       </div>
     </div>
   </div>
+  <script>
+    function submitForm() {
+      const form = document.getElementById('track-choice-form');
+      form.submit();
+    }
+  </script>
 {% endblock content %}
