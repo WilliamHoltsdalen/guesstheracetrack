@@ -2,12 +2,72 @@ body {
   background: var(--teal-bg-blue);
 }
 
+@media only screen and (max-width: 600px) {
+  .track-choice-content {
+    width: 400px;
+    font-size: 1.4rem;
+    padding: 10px;
+  }
+
+  .track-image {
+    width: 450px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .track-choice-content {
+    width: 450px;
+    font-size: 1.4rem;
+    padding: 10px;
+  }
+
+  .track-image {
+    width: 450px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .track-choice-content {
+    width: 450px;
+    font-size: 1.4rem;
+    padding: 10px;
+  }
+
+  .track-image {
+    width: 550px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .track-choice-content {
+    width: 500px;
+    font-size: 1.4rem;
+    padding: 10px;
+  }
+
+  .track-image {
+    width: 585px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .track-choice-content {
+    width: 600px;
+    font-size: 1.4rem;
+    padding: 5px;
+  }
+
+  .track-image {
+    width: 585px;
+  }
+}
+
 .track-image {
   box-shadow: 0 0 10px var(--black);
   padding: 0;
-  max-height: 430px;
   object-fit: cover;
   border-radius: 16px;
+  aspect-ratio: 5 / 3;
 }
 
 .quiz-card {
@@ -15,22 +75,34 @@ body {
   border-radius: 16px;
 }
 
-.overview-card {
+.status-bar {
   background-color: var(--dark-grey);
   border-radius: 16px;
+  padding: 25px;
+}
+
+.status-pill {
+  border-radius: 12px;
   padding: 10px;
-}
-
-.overview {
-  color: var(--lavender);
+  box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.41);
+  min-height: 30px;
+  stroke: var(--dark-grey);
+  stroke-width: 1;
   text-align: center;
-  font-size: 1.5rem;
-  align-items: center;
-  margin: auto;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.overview-header {
-  font-size: 2rem;
+.pill-not-started {
+  background-color: var(--bs-gray);
+}
+
+.pill-correct {
+  background-color: var(--bs-success);
+}
+
+.pill-incorrect {
+  background-color: var(--bs-danger);
 }
 
 .badge {
@@ -42,19 +114,6 @@ body {
   padding: 0;
   margin: 0;
   align-items: center;
-}
-
-.bi-circle {
-  stroke: var(--bs-gray);
-  stroke-width: 1.5;
-}
-
-.bi-circle-correct {
-  stroke: var(--bs-success);
-}
-
-.bi-circle-wrong {
-  stroke: var(--bs-danger);
 }
 
 .round-info {
@@ -73,6 +132,7 @@ body {
 .track-choices {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -87,14 +147,11 @@ body {
 }
 
 .track-choice-content {
-  width: 600px;
-  padding: 20px;
   border: 1.5px solid var(--teal-bg-blue);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
   background-color: white;
   transition: 0.2s ease;
 }
