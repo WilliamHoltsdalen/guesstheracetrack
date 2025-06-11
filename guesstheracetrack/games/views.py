@@ -7,6 +7,7 @@ from django.http import HttpRequest
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils import timezone
 
 from .forms import TrackChoiceForm
@@ -173,6 +174,8 @@ def famous_tracks_display_context(request) -> dict:
         "rounds": rounds,
         "current_round": game_session_track.order + 1,
         "number_of_rounds": game_session.tracks.count(),
+        "game_restart_url": reverse("games:restart_famous_tracks_session"),
+        "game_quit_url": reverse("games:famous_tracks_quit_session"),
     }
 
 
@@ -293,6 +296,8 @@ def competitive_mode_display_context(request):
         "number_of_rounds": game_session.tracks.count(),
         "i": count_root,
         "j": count_root,
+        "game_restart_url": reverse("games:restart_competitive_mode_session"),
+        "game_quit_url": reverse("games:competitive_mode_quit_session"),
     }
 
 

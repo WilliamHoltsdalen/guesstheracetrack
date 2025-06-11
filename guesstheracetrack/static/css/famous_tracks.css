@@ -1,70 +1,28 @@
-body {
-  background: var(--teal-bg-blue);
-}
-
-@media only screen and (max-width: 470px) {
-  .track-choice-content {
-    width: 250px;
-    font-size: 1.4rem;
-    padding: 10px;
-  }
-}
-
 @media only screen and (min-width: 470px) {
-  .track-choice-content {
-    width: 350px;
-    font-size: 1.4rem;
-    padding: 10px;
-  }
-
   .track-image {
     width: 450px;
   }
 }
 
 @media only screen and (min-width: 600px) {
-  .track-choice-content {
-    width: 450px;
-    font-size: 1.4rem;
-    padding: 10px;
-  }
-
   .track-image {
     width: 450px;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .track-choice-content {
-    width: 450px;
-    font-size: 1.4rem;
-    padding: 10px;
-  }
-
   .track-image {
     width: 550px;
   }
 }
 
 @media only screen and (min-width: 992px) {
-  .track-choice-content {
-    width: 500px;
-    font-size: 1.4rem;
-    padding: 10px;
-  }
-
   .track-image {
     width: 585px;
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  .track-choice-content {
-    width: 600px;
-    font-size: 1.4rem;
-    padding: 5px;
-  }
-
   .track-image {
     width: 585px;
   }
@@ -76,84 +34,4 @@ body {
   object-fit: cover;
   border-radius: 16px;
   aspect-ratio: 7 / 4;
-}
-
-.quiz-card {
-  color: var(--black);
-  background-color: #f7f8fb;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 0 20px var(--lavender);
-}
-
-.status-bar {
-  background-color: var(--dark-grey);
-  border-radius: 16px;
-  padding: 25px;
-}
-
-.status-pill {
-  border-radius: 8px;
-  padding: 8px;
-  box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.41);
-  min-height: 20px;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.pill-current {
-  scale: 1.2;
-  border: 1.5px solid #000;
-}
-
-.round-status {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  align-items: center;
-}
-
-.round-info {
-  text-align: center;
-  color: white;
-  padding: 5px 10px;
-  font-size: 1.25rem;
-  border-radius: 15px;
-}
-
-.track-circle-icon {
-  fill: var(--bs-gray);
-}
-
-.track-choices {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.track-choice-label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.track-choice-label input[type="radio"] {
-  display: none;
-}
-
-.track-choice-content {
-  border: 1.5px solid #d0dbec;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fbfcfe;
-  transition: 0.2s ease;
-  box-shadow: 0 0 15px var(--lavender);
-}
-
-.track-choice-content:hover {
-  background-color: var(--teal-bg-blue);
 }
