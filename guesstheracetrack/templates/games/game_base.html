@@ -14,6 +14,7 @@
         <div class="row d-flex justify-content-evenly">
           {% for round, score in rounds.items %}
             <div class="col-1 status-pill{% if round == current_round %} bg-primary pill-current {% elif score >= 1 %} bg-success {% elif score == -1 %} bg-danger {% else %} bg-secondary {% endif %}">
+              <i class="bi h4 {% if round == current_round %}{% elif score >= 1 %}bi-check{% elif score == -1 %}bi-x{% else %} {% endif %}"></i>
             </div>
           {% endfor %}
         </div>

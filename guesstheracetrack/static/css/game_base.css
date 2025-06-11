@@ -8,6 +8,10 @@ body {
     font-size: 1.4rem;
     padding: 10px;
   }
+
+  .round-info {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 470px) {
@@ -16,6 +20,10 @@ body {
     font-size: 1.4rem;
     padding: 10px;
   }
+
+  .round-info {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 600px) {
@@ -23,6 +31,9 @@ body {
     width: 450px;
     font-size: 1.4rem;
     padding: 10px;
+  }
+  .round-info {
+    display: inline-block;
   }
 }
 
@@ -66,8 +77,7 @@ body {
 
 .status-pill {
   border-radius: 8px;
-  padding: 8px;
-  box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.41);
+  padding: 0px;
   min-height: 20px;
   text-align: center;
   font-size: 1rem;
@@ -77,6 +87,14 @@ body {
 .pill-current {
   scale: 1.2;
   border: 1.5px solid #000;
+}
+
+.bi-check {
+  color: #004827;
+}
+
+.bi-x {
+  color: #81131e;
 }
 
 .round-status {
