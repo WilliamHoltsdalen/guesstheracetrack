@@ -10,11 +10,3 @@
        src=" {% for track in track_list %} {% if track.pk == correct_track_pk %}{{ track.image.url }}{% endif %} {% endfor %} "
        alt="" />
 {% endblock track_image %}
-{% block game_script %}
-  <script>
-    function submitForm() {
-      const form = document.getElementById('track-choice-form');
-      form.submit();
-    }
-  </script>
-{% endblock game_script %}

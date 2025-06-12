@@ -27,11 +27,6 @@
 {% endblock track_image %}
 {% block game_script %}
   <script>
-    function submitForm() {
-      const form = document.getElementById('track-choice-form');
-      form.submit();
-    }
-
     const startRoundBtn = document.getElementById('start-round');
     let socket = null;
 

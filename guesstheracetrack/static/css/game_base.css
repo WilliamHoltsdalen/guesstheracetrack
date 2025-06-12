@@ -85,7 +85,7 @@ body {
 }
 
 .pill-current {
-  scale: 1.2;
+  transform: scale(1.2);
   border: 1.5px solid #000;
 }
 
