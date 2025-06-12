@@ -46,6 +46,7 @@ class GameSessionTrackAdmin(admin.ModelAdmin):
         "order",
         "revealed_at",
         "submitted_at",
+        "submitted_track",
     )
     list_filter = ("session", "correct_track")
     search_fields = ("session__user__username", "correct_track__name")

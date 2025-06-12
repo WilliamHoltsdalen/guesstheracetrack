@@ -116,6 +116,10 @@ def handle_famous_tracks_submission(user, form) -> None:
     game_session_track = get_current_game_session_track(game_session)
     track_pk = uuid.UUID(form.cleaned_data["track"])
 
+    # Update submitted track
+    game_session_track.submitted_track = RaceTrack.objects.get(pk=track_pk)
+    game_session_track.save()
+
     # Update score
     is_correct = game_session_track.correct_track.pk == track_pk
     game_session_track.score = 1 if is_correct else -1
@@ -136,8 +140,9 @@ def handle_competitive_mode_submission(user, form) -> None:
     if not game_session_track.revealed_at:
         return
 
-    # Update track submission time
+    # Update track submission
     game_session_track.submitted_at = timezone.localtime()
+    game_session_track.submitted_track = RaceTrack.objects.get(pk=track_pk)
 
     # Update score
     is_correct = game_session_track.correct_track.pk == track_pk

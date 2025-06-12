@@ -98,13 +98,19 @@ def session_complete(request, game_type: str) -> HttpResponse:
     rounds = {}
     total_score = 0
     for track_round in range(game_session.tracks.count()):
+        game_session_track = GameSessionTrack.objects.filter(
+            session=game_session,
+            order=track_round,
+        ).first()
+        assert game_session_track
+        if not game_session_track.submitted_track:
+            submitted_track = "(An error occurred)"
+        else:
+            submitted_track = game_session_track.submitted_track.name
+
         rounds[track_round + 1] = {
-            "track_name": GameSessionTrack.objects.filter(
-                session=game_session,
-                order=track_round,
-            )
-            .first()
-            .correct_track.name,
+            "track_name": game_session_track.correct_track.name,
+            "submitted_track": submitted_track,
             "score": GameSessionTrack.objects.filter(
                 session=game_session,
                 order=track_round,
