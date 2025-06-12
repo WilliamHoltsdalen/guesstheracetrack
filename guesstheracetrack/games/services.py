@@ -39,18 +39,26 @@ def get_game_session_track_objects(game_session):
 
 def start_new_game_session(user, game_type: str):
     # End any existing active session for this game_type
-    assert user is not None
-    assert game_type is not None
+    if not user:
+        errormsg = "User is not set"
+        raise ValueError(errormsg)
+    if not game_type:
+        errormsg = "Game type is not set"
+        raise ValueError(errormsg)
 
     existing_session = get_active_game_session(user, game_type)
     if existing_session:
         existing_session.delete()
 
     pks = list(RaceTrack.objects.values_list("pk", flat=True))
-    assert len(pks) >= MIN_TRACKS_FOR_SESSION
+    if len(pks) < MIN_TRACKS_FOR_SESSION:
+        errormsg = "Not enough tracks to start a session"
+        raise ValueError(errormsg)
 
     game_session = GameSession.objects.create(user=user, game_type=game_type)
-    assert game_session.pk is not None
+    if not game_session.pk:
+        errormsg = "Game session not created"
+        raise ValueError(errormsg)
 
     # Select random tracks for the session
     num_rounds = min(10, len(pks) - 1)
@@ -73,8 +81,12 @@ def create_game_round(game_session, correct_track, pks, order):
     # NOTE: Fetching the tracks here to avoid problems with the queryset
     incorrect_tracks = list(RaceTrack.objects.filter(pk__in=incorrect_tracks))
 
-    assert len(incorrect_tracks) == 2  # noqa: PLR2004
-    assert incorrect_tracks[0].pk != incorrect_tracks[1].pk
+    if len(incorrect_tracks) != 2:  # noqa: PLR2004
+        errormsg = "Incorrect track count is not 2"
+        raise ValueError(errormsg)
+    if incorrect_tracks[0].pk == incorrect_tracks[1].pk:
+        errormsg = "Incorrect tracks are the same"
+        raise ValueError(errormsg)
 
     return GameSessionTrack.objects.create(
         session=game_session,
@@ -115,7 +127,9 @@ def is_session_complete(user, game_type) -> bool:
 def handle_famous_tracks_submission(user, form) -> None:
     """Handle track submission for a game sessio, of the famous tracks game."""
     game_session = get_active_game_session(user, "famous_tracks")
-    assert game_session
+    if not game_session:
+        errormsg = "No active game session"
+        raise ValueError(errormsg)
 
     game_session_track = get_current_game_session_track(game_session)
     track_pk = uuid.UUID(form.cleaned_data["track"])
