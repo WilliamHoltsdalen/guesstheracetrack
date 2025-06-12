@@ -1,28 +1,7 @@
-.round-status {
-  text-align: center;
-  padding: 0;
-  margin: 0;
+.list-group-item {
+  background-color: #fbfcfe;
 }
 
-.bi-circle {
-  stroke: var(--bs-gray);
-  stroke-width: 1.5;
-}
-
-.bi-circle-correct {
-  stroke: var(--bs-success);
-}
-
-.bi-circle-wrong {
-  stroke: var(--bs-danger);
-}
-
-.overview {
-  color: var(--dark-grey);
-  font-size: 1.5rem;
-  margin: auto;
-}
-
-.overview-header {
-  font-size: 2rem;
+h3 {
+  color: gray !important;
 }
