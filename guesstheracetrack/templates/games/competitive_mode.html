@@ -1,108 +1,32 @@
-{% extends "../base.html" %}
+{% extends "../games/game_base.html" %}
 
 {% load static i18n %}
 
-{% block title %}
-  {{ track.name }}
-{% endblock title %}
-{% block page_css %}
+{% block game_css %}
   <link href="{% static 'css/competitive_mode.css' %}" rel="stylesheet" />
-{% endblock page_css %}
-{% block content %}
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col ms-5 mt-5 quiz-card">
-        <div class="container image-container">
-          <!-- Floating button positioned over the image grid -->
-          <button id="start-round" class="floating-button">Start Round</button>
-          {% for _ in i %}
-            <div class="row grid-row m-0">
-              {% with forloop.counter as outer_counter %}
-                {% for _ in j %}
-                  <div class="col grid-col p-0">
-                    <img class="segment-image {% if outer_counter == 1 and forloop.counter == 1 %}segment-top-left{% endif %} {% if outer_counter == 1 and forloop.counter == j|length %}segment-top-right{% endif %} {% if outer_counter == i|length and forloop.counter == 1 %}segment-bottom-left{% endif %} {% if outer_counter == i|length and forloop.counter == j|length %}segment-bottom-right{% endif %}"
-                         id="{{ forloop.counter }}_{{ outer_counter }}"
-                         src="/media/segments/black.png"
-                         alt="Track Segment" />
-                  </div>
-                {% endfor %}
-              {% endwith %}
+{% endblock game_css %}
+{% block track_image %}
+  <div class="container image-container">
+    <!-- Floating button positioned over the image grid -->
+    <button id="start-round" class="floating-button">Start Round</button>
+    {% for _ in i %}
+      <div class="row grid-row m-0">
+        {% with forloop.counter as outer_counter %}
+          {% for _ in j %}
+            <div class="col grid-col p-0">
+              <img class="segment-image {% if outer_counter == 1 and forloop.counter == 1 %}segment-top-left{% endif %} {% if outer_counter == 1 and forloop.counter == j|length %}segment-top-right{% endif %} {% if outer_counter == i|length and forloop.counter == 1 %}segment-bottom-left{% endif %} {% if outer_counter == i|length and forloop.counter == j|length %}segment-bottom-right{% endif %}"
+                   id="{{ forloop.counter }}_{{ outer_counter }}"
+                   src="/media/segments/black.png"
+                   alt="Track Segment" />
             </div>
           {% endfor %}
-        </div>
-        <div class="row ms-5 mt-5">
-          <div class="col">
-            <h2>Which track is this?</h2>
-          </div>
-          <div class="col ">
-            <span class="round-info badge">Round {{ current_round }} / {{ number_of_rounds }}</span>
-          </div>
-        </div>
-        <form action="{% url 'games:competitive_mode' %}"
-              id="track-choice-form"
-              method="post">
-          <div class="row ms-5 mt-1 track-choices-row">
-            {% csrf_token %}
-            <div class="col track-choices">
-              {% for track in track_list %}
-                <label class="track-choice-label">
-                  <input type="radio"
-                         name="track"
-                         value="{{ track.pk }}"
-                         required
-                         onchange="submitForm()" />
-                  <div class="track-choice-content">{{ track.name }}</div>
-                </label>
-              {% endfor %}
-            </div>
-          </div>
-        </form>
+        {% endwith %}
       </div>
-      <!-- Overview card -->
-      <div class="col-3 overview-card ms-5 mt-5 me-5">
-        <div class="row m-0 py-5 pt-4 container-fluid d-flex flex-column h-100">
-          <div class="col d-flex flex-column justify-content-between">
-            <!-- Card header -->
-            <div class="row overview-row">
-              <h2 class="overview overview-header">Overview</h2>
-            </div>
-            {% for round, score in rounds.items %}
-              <div class="row align-items-center overview-row">
-                <div class="col">
-                  <p class="overview">Round {{ round }}</p>
-                </div>
-                <div class="col round-status">
-                  <svg xmlns="http://www.w3.org/2000/svg"
-                       width="30"
-                       height="30"
-                       {% if score >= 1 %} class="bi bi-circle bi-circle-correct" {% elif score == -1 %} class="bi bi-circle bi-circle-wrong" {% else %} class="bi bi-circle" {% endif %}
-                       viewBox="-1 0 19 15">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                  </svg>
-                </div>
-              </div>
-            {% endfor %}
-            <div class="row session-controls d-flex justify-content-evenly ">
-              <div class="col-auto">
-                <a href="{% url 'games:restart_competitive_mode_session' %}"
-                   class="btn btn-primary btn-submit">Restart</a>
-              </div>
-              <div class="col-auto">
-                <a href="{% url 'games:competitive_mode_quit_session' %}"
-                   class="btn btn-danger">Quit</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
+{% endblock track_image %}
+{% block game_script %}
   <script>
-    function submitForm() {
-      const form = document.getElementById('track-choice-form');
-      form.submit();
-    }
-
     const startRoundBtn = document.getElementById('start-round');
     let socket = null;
 
@@ -153,4 +77,4 @@
       });
     });
   </script>
-{% endblock content %}
+{% endblock game_script %}

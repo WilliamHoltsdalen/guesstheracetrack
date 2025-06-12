@@ -1,104 +1,37 @@
-body {
-  background: var(--teal-bg-blue);
+@media only screen and (min-width: 470px) {
+  .track-image {
+    width: 450px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .track-image {
+    width: 450px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .track-image {
+    width: 550px;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .track-image {
+    width: 585px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .track-image {
+    width: 585px;
+  }
 }
 
 .track-image {
-  box-shadow: 0 0 10px var(--black);
+  box-shadow: 0 0 5px var(--black);
   padding: 0;
-  max-height: 430px;
   object-fit: cover;
   border-radius: 16px;
-}
-
-.quiz-card {
-  color: var(--black);
-  border-radius: 16px;
-}
-
-.overview-card {
-  background-color: var(--dark-grey);
-  border-radius: 16px;
-  padding: 10px;
-}
-
-.overview {
-  color: var(--lavender);
-  text-align: center;
-  font-size: 1.5rem;
-  align-items: center;
-  margin: auto;
-}
-
-.overview-header {
-  font-size: 2rem;
-}
-
-.badge {
-  max-width: 50%;
-}
-
-.round-status {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-  align-items: center;
-}
-
-.bi-circle {
-  stroke: var(--bs-gray);
-  stroke-width: 1.5;
-}
-
-.bi-circle-correct {
-  stroke: var(--bs-success);
-}
-
-.bi-circle-wrong {
-  stroke: var(--bs-danger);
-}
-
-.round-info {
-  text-align: center;
-  color: var(--black);
-  padding: 10px;
-  font-size: 1.25rem;
-  border-radius: 12px;
-  border: 4px solid var(--blue);
-}
-
-.track-circle-icon {
-  fill: var(--bs-gray);
-}
-
-.track-choices {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.track-choice-label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.track-choice-label input[type="radio"] {
-  display: none;
-}
-
-.track-choice-content {
-  width: 600px;
-  padding: 20px;
-  border: 1.5px solid var(--teal-bg-blue);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  background-color: white;
-  transition: 0.2s ease;
-}
-
-.track-choice-content:hover {
-  background-color: var(--teal-bg-blue);
+  aspect-ratio: 7 / 4;
 }

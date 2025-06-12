@@ -7,6 +7,7 @@ from django.http import HttpRequest
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils import timezone
 
 from .forms import TrackChoiceForm
@@ -97,13 +98,19 @@ def session_complete(request, game_type: str) -> HttpResponse:
     rounds = {}
     total_score = 0
     for track_round in range(game_session.tracks.count()):
+        game_session_track = GameSessionTrack.objects.filter(
+            session=game_session,
+            order=track_round,
+        ).first()
+        assert game_session_track
+        if not game_session_track.submitted_track:
+            submitted_track = "(An error occurred)"
+        else:
+            submitted_track = game_session_track.submitted_track.name
+
         rounds[track_round + 1] = {
-            "track_name": GameSessionTrack.objects.filter(
-                session=game_session,
-                order=track_round,
-            )
-            .first()
-            .correct_track.name,
+            "track_name": game_session_track.correct_track.name,
+            "submitted_track": submitted_track,
             "score": GameSessionTrack.objects.filter(
                 session=game_session,
                 order=track_round,
@@ -173,6 +180,8 @@ def famous_tracks_display_context(request) -> dict:
         "rounds": rounds,
         "current_round": game_session_track.order + 1,
         "number_of_rounds": game_session.tracks.count(),
+        "game_restart_url": reverse("games:restart_famous_tracks_session"),
+        "game_quit_url": reverse("games:famous_tracks_quit_session"),
     }
 
 
@@ -293,6 +302,8 @@ def competitive_mode_display_context(request):
         "number_of_rounds": game_session.tracks.count(),
         "i": count_root,
         "j": count_root,
+        "game_restart_url": reverse("games:restart_competitive_mode_session"),
+        "game_quit_url": reverse("games:competitive_mode_quit_session"),
     }
 
 

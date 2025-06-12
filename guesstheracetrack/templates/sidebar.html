@@ -26,109 +26,60 @@
   <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
   </symbol>
 </svg>
-<!-- Sidebar -->
-<div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white">
-  <a class="d-flex align-items-center navbar-brand"
-     href="{% url 'landing_page' %}">
-    <div class="row">
-      <div class="col">
-        <img class="navbar-logo"
-             src="{% static 'images/logos/logo.png' %}"
-             alt="Guess The Race Track" />
-      </div>
-      <div class="col my-auto ">
-        <p class="navbar-brand-name text-white my-auto">
-          Guess The
-          <br />
-          Race Track
-        </p>
-      </div>
-    </div>
-  </a>
-  <hr />
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-      <a href="{% url 'games:home' %}"
-         class="nav-link {% if request.path == '/games/' %}active{% endif %}"
-         aria-current="page">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#home"></use>
-        </svg>
-        Home
-      </a>
-    </li>
-    <hr />
-    <li>
-      <a href="{% url 'games:famous_tracks' %}"
-         class="nav-link {% if request.path|slice:'0:21' == '/games/famous_tracks/' %}active{% endif %}">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#grid"></use>
-        </svg>
-        Famous Racetracks
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'games:competitive_mode' %}"
-         class="nav-link {% if request.path|slice:'0:24' == '/games/competitive_mode/' %}active{% endif %}">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#speedometer2"></use>
-        </svg>
-        Competitive mode
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'scores:leaderboard' %}"
-         class="nav-link {% if request.path|slice:'0:20' == '/scores/leaderboard/' %}active{% endif %}">
-        <svg class="bi me-2" width="16" height="16">
-          <use xlink:href="#table"></use>
-        </svg>
-        Leaderboard
-      </a>
-    </li>
-  </ul>
-  <hr />
-  {% if request.user.is_authenticated %}
-    <div class="dropdown">
-      <a href="#"
-         class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-         id="dropdownUser1"
-         data-bs-toggle="dropdown"
-         aria-expanded="false">
-        <img src="https://github.com/williamholtsdalen.png"
-             alt=""
-             width="32"
-             height="32"
-             class="rounded-circle me-2" />
-        <strong>{{ user.name }}</strong>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
-          aria-labelledby="dropdownUser1"
-          style="">
-        <li>
-          <a class="dropdown-item" href="#">Invite a friend!</a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">Settings</a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
-        </li>
-        <li>
-          <hr class="dropdown-divider" />
-        </li>
-        <li>
-          <a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
-        </li>
-      </ul>
-    </div>
-  {% else %}
-    <div class="d-flex align-items-center">
-      <svg class="bi ms-3" width="32" height="32">
-        <use xlink:href="#people-circle"></use>
-      </svg>
-      <a class="sign-in-link ms-3" href="{% url 'account_login' %}">
-        <span>Sign in here</span>
-      </a>
-    </div>
-  {% endif %}
+<!-- Burger menu button - only visible on small screens -->
+<button class="btn btn-primary d-lg-none sidebar-burger-btn"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#mainSidebar"
+        aria-controls="mainSidebar"
+        id="sidebarBurgerBtn">
+  <i class="bi bi-list"></i>
+</button>
+<!-- Desktop Sidebar-->
+<div class="sidebar d-none d-lg-flex flex-column flex-shrink-0 p-3 text-white">
+  {% include "sidebar_content.html" with is_offcanvas=False dropdown_id="1" %}
 </div>
+<!-- Sidebar for smaller screesn -->
+<div class="offcanvas offcanvas-start sidebar-offcanvas"
+     tabindex="-1"
+     id="mainSidebar"
+     aria-labelledby="mainSidebarLabel">
+  <div class="offcanvas-body p-3">
+    <button type="button"
+            class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    {% include "sidebar_content.html" with is_offcanvas=True dropdown_id="2" %}
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const burgerBtn = document.getElementById('sidebarBurgerBtn');
+    const sidebar = document.getElementById('mainSidebar');
+    const offcanvasInstance = sidebar ? bootstrap.Offcanvas.getOrCreateInstance(sidebar) : null;
+
+    if (burgerBtn && sidebar) {
+      // Hide burger button when offcanvas opens
+      sidebar.addEventListener('show.bs.offcanvas', function() {
+        burgerBtn.classList.add('hide-burger');
+      });
+
+      // Show burger button when offcanvas closes
+      sidebar.addEventListener('hidden.bs.offcanvas', function() {
+        burgerBtn.classList.remove('hide-burger');
+      });
+    }
+
+    // Handle navigation links in offcanvas - close sidebar when clicked
+    if (offcanvasInstance) {
+      document.querySelectorAll('.offcanvas-nav-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          // Allow the link to navigate first, then close the offcanvas
+          setTimeout(function() {
+            offcanvasInstance.hide();
+          }, 100);
+        });
+      });
+    }
+  });
+</script>

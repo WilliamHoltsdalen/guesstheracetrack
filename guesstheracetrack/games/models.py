@@ -42,10 +42,7 @@ class GameSession(models.Model):
     game_type = models.CharField(max_length=255, default="")
 
     def __str__(self):
-        return (
-            f"GameSession {self.id} - {self.user} - {self.game_type} - "
-            f"{self.score} points"
-        )
+        return f"{self.user} - {self.game_type} - {self.score} points"
 
 
 class GameSessionTrack(models.Model):
@@ -76,6 +73,13 @@ class GameSessionTrack(models.Model):
     order = models.IntegerField(default=0)
     revealed_at = models.DateTimeField(null=True, blank=True)
     submitted_at = models.DateTimeField(null=True, blank=True)
+    submitted_track = models.ForeignKey(
+        RaceTrack,
+        on_delete=models.CASCADE,
+        related_name="submitted_track",
+        default=None,
+        null=True,
+    )
 
     class Meta:
         unique_together = (

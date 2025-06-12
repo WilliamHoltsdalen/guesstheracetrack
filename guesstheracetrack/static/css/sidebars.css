@@ -98,3 +98,104 @@ main {
 .sign-in-link:hover {
   color: var(--blue);
 }
+
+/* Burger menu button styles */
+.sidebar-burger-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1050;
+  background-color: rgba(10, 9, 11, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--owhite);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.sidebar-burger-btn:hover {
+  background-color: var(--teal-bg-blue);
+  color: white;
+  transform: scale(1.05);
+}
+
+.sidebar-burger-btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Hide burger menu when offcanvas is open (JavaScript-controlled) */
+.sidebar-burger-btn.hide-burger {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+
+/* Offcanvas sidebar styles */
+.sidebar-offcanvas {
+  background: rgba(10, 9, 11, 0.95);
+  color: var(--owhite);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-offcanvas .offcanvas-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+}
+
+.sidebar-offcanvas .offcanvas-body {
+  padding: 1rem 1.5rem;
+}
+
+.sidebar-offcanvas .navbar-brand {
+  text-decoration: none;
+  color: var(--owhite);
+}
+
+.sidebar-offcanvas .navbar-brand:hover {
+  color: var(--owhite);
+}
+
+.sidebar-offcanvas .btn-close-white {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(13deg) brightness(104%) contrast(106%);
+}
+
+.sidebar-offcanvas .nav-link {
+  color: var(--owhite);
+  margin-bottom: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-offcanvas .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--teal-bg-blue);
+  transform: translateX(5px);
+}
+
+.sidebar-offcanvas .nav-link.active {
+  background-color: var(--teal-bg-blue);
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .main-container {
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  main {
+    padding-left: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .sidebar-burger-btn {
+    display: none !important;
+  }
+}
