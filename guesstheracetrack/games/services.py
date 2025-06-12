@@ -68,10 +68,7 @@ def start_new_game_session(user, game_type: str):
 def create_game_round(game_session, correct_track, pks, order):
     """Create a single game round with one correct and two incorrect tracks."""
     non_correct_pks = [pk for pk in pks if pk != correct_track.pk]
-    incorrect_tracks = sample(
-        [pk for pk in non_correct_pks if pk != correct_track.pk],
-        k=2,
-    )
+    incorrect_tracks = sample(non_correct_pks, k=2)
 
     # NOTE: Fetching the tracks here to avoid problems with the queryset
     incorrect_tracks = list(RaceTrack.objects.filter(pk__in=incorrect_tracks))
