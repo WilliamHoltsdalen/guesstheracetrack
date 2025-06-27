@@ -34,11 +34,85 @@
                   <td>{{ entry.games_played }}</td>
                 </tr>
               {% empty %}
-                <p>No leaderboard yet</p>
+                <tr>
+                  <td colspan="4" class="text-center">No scores found on this page</td>
+                </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
+        {% if page_obj.has_other_pages %}
+          <div class="row m-0 mt-3">
+            <div class="col d-flex justify-content-center">
+              <nav aria-label="Leaderboard pagination">
+                <ul class="pagination">
+                  {% if page_obj.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">‹‹</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?page={{ page_obj.previous_page_number }}"
+                         aria-label="Previous">
+                        <span aria-hidden="true">‹</span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">‹‹</span>
+                    </li>
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">‹</span>
+                    </li>
+                  {% endif %}
+                  {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                      <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                      </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if page_obj.has_next %}
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?page={{ page_obj.next_page_number }}"
+                         aria-label="Next">
+                        <span aria-hidden="true">›</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?page={{ page_obj.paginator.num_pages }}"
+                         aria-label="Last">
+                        <span aria-hidden="true">››</span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">›</span>
+                    </li>
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">››</span>
+                    </li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="row m-0">
+            <div class="col text-center">
+              <small class="text-muted">
+                Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} scores
+              </small>
+            </div>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>
