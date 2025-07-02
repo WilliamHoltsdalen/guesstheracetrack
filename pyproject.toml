@@ -134,3 +134,58 @@ extend-unsafe-fixes = [
 
 [tool.ruff.lint.isort]
 force-single-line = true
+
+[tool.pyright]
+# Django-specific settings
+include = ["."]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations",
+    "venv",
+    "env"
+]
+
+# Django settings
+defineConstant = { DJANGO_SETTINGS_MODULE = "config.settings.local" }
+pythonVersion = "3.12"
+typeCheckingMode = "basic"
+
+# Reduce noise from missing stubs
+reportMissingImports = "warning"
+reportMissingTypeStubs = "none"
+reportUnknownMemberType = "none"
+reportUnknownArgumentType = "none"
+reportUnknownVariableType = "none"
+reportUnknownParameterType = "none"
+
+# Django-specific ignores
+reportOptionalMemberAccess = "none"
+reportGeneralTypeIssues = "none"
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_django = "django"
+known_first_party = ["config", "apps"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]

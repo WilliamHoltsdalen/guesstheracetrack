@@ -1,0 +1,80 @@
+{% extends "../games/game_base.html" %}
+
+{% load static i18n %}
+
+{% block game_css %}
+  <link href="{% static 'css/competitive_mode.css' %}" rel="stylesheet" />
+{% endblock game_css %}
+{% block track_image %}
+  <div class="container image-container">
+    <!-- Floating button positioned over the image grid -->
+    <button id="start-round" class="floating-button">Start Round</button>
+    {% for _ in i %}
+      <div class="row grid-row m-0">
+        {% with forloop.counter as outer_counter %}
+          {% for _ in j %}
+            <div class="col grid-col p-0">
+              <img class="segment-image {% if outer_counter == 1 and forloop.counter == 1 %}segment-top-left{% endif %} {% if outer_counter == 1 and forloop.counter == j|length %}segment-top-right{% endif %} {% if outer_counter == i|length and forloop.counter == 1 %}segment-bottom-left{% endif %} {% if outer_counter == i|length and forloop.counter == j|length %}segment-bottom-right{% endif %}"
+                   id="{{ forloop.counter }}_{{ outer_counter }}"
+                   src="/media/segments/black.png"
+                   alt="Track Segment" />
+            </div>
+          {% endfor %}
+        {% endwith %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock track_image %}
+{% block game_script %}
+  <script>
+    const startRoundBtn = document.getElementById('start-round');
+    let socket = null;
+
+    startRoundBtn.addEventListener('click', function() {
+      if (socket) {
+        socket.close();
+        socket = null;
+      }
+
+      // Create WebSocket connection
+      socket = new WebSocket('ws://' + window.location.host + '/ws/track_segments/');
+
+      socket.onopen = function(e) {
+        console.log("Connection established");
+      };
+
+      socket.onmessage = function(e) {
+        const message = JSON.parse(e.data).message;
+        console.log("Message received:", message);
+
+        if (message.segment) {
+          console.log("Received segment: ", message.segment);
+          document.getElementById(message.i + "_" + message.j).src = message.segment;
+          document.getElementById(message.i + "_" + message.j).classList.add("loaded");
+        }
+      };
+
+      socket.onclose = function(e) {
+        console.log("Connection closed: " + e.code);
+      };
+
+      socket.onerror = function(e) {
+        console.error("WebSocket error:", e);
+      };
+
+      startRoundBtn.classList.add('hidden');
+      // Tell server to start sending segments
+      const csrf_token = "{{ csrf_token }}";
+      fetch('./', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrf_token
+        },
+        body: JSON.stringify({
+          message: "start_sending_segments"
+        })
+      });
+    });
+  </script>
+{% endblock game_script %}

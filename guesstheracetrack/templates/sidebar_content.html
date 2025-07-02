@@ -1,0 +1,112 @@
+{% load static i18n %}
+
+<!-- Logo and branding -->
+<a class="d-flex align-items-center navbar-brand"
+   href="{% url 'landing_page' %}">
+  <div class="row">
+    <div class="col">
+      <img class="navbar-logo"
+           src="{% static 'images/logos/logo.png' %}"
+           alt="Guess The Race Track" />
+    </div>
+    <div class="col my-auto ">
+      <p class="navbar-brand-name text-white my-auto">
+        Guess The
+        <br />
+        Race Track
+      </p>
+    </div>
+  </div>
+</a>
+<hr />
+<!-- Navigation links -->
+<ul class="nav nav-pills flex-column mb-auto">
+  <li class="nav-item">
+    <a href="{% url 'games:home' %}"
+       class="nav-link {% if request.path == '/games/' %}active{% endif %} {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
+       aria-current="page">
+      <svg class="bi me-2" width="16" height="16">
+        <use xlink:href="#home"></use>
+      </svg>
+      Home
+    </a>
+  </li>
+  <hr />
+  <li>
+    <a href="{% url 'games:famous_tracks' %}"
+       class="nav-link {% if request.path|slice:'0:21' == '/games/famous_tracks/' %}active{% endif %} {% if is_offcanvas %}offcanvas-nav-link{% endif %}">
+      <svg class="bi me-2" width="16" height="16">
+        <use xlink:href="#grid"></use>
+      </svg>
+      Famous Racetracks
+    </a>
+  </li>
+  <li>
+    <a href="{% url 'games:competitive_mode' %}"
+       class="nav-link {% if request.path|slice:'0:24' == '/games/competitive_mode/' %}active{% endif %} {% if is_offcanvas %}offcanvas-nav-link{% endif %}">
+      <svg class="bi me-2" width="16" height="16">
+        <use xlink:href="#speedometer2"></use>
+      </svg>
+      Competitive mode
+    </a>
+  </li>
+  <li>
+    <a href="{% url 'scores:leaderboard' %}"
+       class="nav-link {% if request.path|slice:'0:20' == '/scores/leaderboard/' %}active{% endif %} {% if is_offcanvas %}offcanvas-nav-link{% endif %}">
+      <svg class="bi me-2" width="16" height="16">
+        <use xlink:href="#table"></use>
+      </svg>
+      Leaderboard
+    </a>
+  </li>
+</ul>
+<hr />
+<!-- User section -->
+{% if request.user.is_authenticated %}
+  <div class="dropdown">
+    <a href="#"
+       class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+       id="dropdownUser{{ dropdown_id|default:'1' }}"
+       data-bs-toggle="dropdown"
+       aria-expanded="false">
+      <img src="https://github.com/williamholtsdalen.png"
+           alt=""
+           width="32"
+           height="32"
+           class="rounded-circle me-2" />
+      <strong>{{ user.name }}</strong>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
+        aria-labelledby="dropdownUser{{ dropdown_id|default:'1' }}">
+      <li>
+        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
+           href="#">Invite a friend!</a>
+      </li>
+      <li>
+        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
+           href="#">Settings</a>
+      </li>
+      <li>
+        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
+           href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
+      </li>
+      <li>
+        <hr class="dropdown-divider" />
+      </li>
+      <li>
+        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
+           href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
+      </li>
+    </ul>
+  </div>
+{% else %}
+  <div class="d-flex align-items-center">
+    <svg class="bi ms-3" width="32" height="32">
+      <use xlink:href="#people-circle"></use>
+    </svg>
+    <a class="sign-in-link ms-3 {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
+       href="{% url 'account_login' %}">
+      <span>Sign in here</span>
+    </a>
+  </div>
+{% endif %}

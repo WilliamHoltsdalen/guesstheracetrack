@@ -9,41 +9,43 @@
   <link href="{% static 'css/session_complete.css' %}" rel="stylesheet" />
 {% endblock page_css %}
 {% block content %}
-  <div class="container overflow-scroll container-fluid d-flex flex-column h-100">
-    <div class="row d-flex flex-column">
-      <div class="col m-5">
-        <div class="row ms-5 mt-5">
+  <div class="container content-container overflow-scroll">
+    <div class="row m-5 d-flex flex-column">
+      <div class="col">
+        <div class="row">
           <div class="col">
-            <div class="row m-0 py-5 pt-4">
+            <div class="row m-0 pt-4">
               <h1>Session complete!</h1>
-              <h2>Total score: {{ total_score }}</h2>
+              <h3>Total score: {{ total_score }}</h3>
             </div>
-            <div class="row m-0 py-5 pt-0 container-fluid d-flex flex-column h-100">
+            <div class="row my-5">
               <div class="col d-flex flex-column justify-content-evenly">
-                {% for round_number, round_data in rounds.items %}
-                  <div class="row align-items-center overview-row">
-                    <div class="col">
-                      <p class="overview">Round {{ round_number }} ({{ round_data.track_name }})</p>
-                    </div>
-                    <div class="col round-status">
-                      <svg xmlns="http://www.w3.org/2000/svg"
-                           width="30"
-                           height="30"
-                           {% if round_data.score == 1 %} class="bi bi-circle bi-circle-correct" {% elif round_data.score == -1 %} class="bi bi-circle bi-circle-wrong" {% else %} class="bi bi-circle" {% endif %}
-                           viewBox="-1 0 19 15">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                      </svg>
-                    </div>
-                  </div>
-                {% endfor %}
+                <ol class="list-group list-group-numbered">
+                  {% for round_number, round_data in rounds.items %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ round_data.track_name }}</div>
+                        <span class="text-secondary">Your answer:</span> <span class="{% if round_data.score >= 1 %}text-success {% else %}text-danger{% endif %}"> {{ round_data.submitted_track }}</span>
+                      </div>
+                      <span class="badge rounded-pill {% if round_data.score >= 1 %} text-bg-success {% elif round_data.score == -1 %} text-bg-danger {% endif %}">Score:
+                        {% if round_data.score < 0 %}
+                          0
+                        {% else %}
+                          {{ round_data.score }}
+                        {% endif %}
+                      </span>
+                    </li>
+                  {% endfor %}
+                </ol>
               </div>
             </div>
-            <div class="row m-0 py-5 pt-4 container-fluid d-flex flex-row w-50">
-              <div class="col d-flex justify-content-center">
+            <div class="row d-flex justify-content-evenly">
+              <div class="col-auto">
                 <a href="{% url 'games:home' %}" class="btn btn-secondary">Home</a>
               </div>
-              <div class="col d-flex justify-content-center">
-                <a href="{% url 'games:start_session' %}" class="btn btn-primary">Play again</a>
+              <div class="col-auto">
+                <a href="{% url 'games:start_session' game_type %}"
+                   class="btn btn-primary">Play again</a>
               </div>
             </div>
           </div>

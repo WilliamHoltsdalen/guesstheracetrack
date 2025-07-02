@@ -1,0 +1,43 @@
+{% load static i18n %}
+
+<footer class="footer">
+  <div class="container-fluid d-flex flex-column justify-content-center align-items-center">
+    <div class="row footer-grid">
+      <div class="col-auto footer-col logo-col">
+        <img class="footer-logo"
+             style="width: 100px"
+             src="{% static 'images/logos/logo.png' %}"
+             alt="Guess The Race Track" />
+      </div>
+      <div class="col-auto footer-col">
+        <a class="footer-link" href="{% url 'scores:leaderboard' %}">Leaderboard</a>
+        <a class="footer-link" href="#">Blog</a>
+        <a class="footer-link" href="#">About us</a>
+      </div>
+      <div class="col-auto footer-col">
+        <a class="footer-link" href="#">Contact us</a>
+        <a class="footer-link" href="{% url 'landing_page:privacy_policy' %}">Privacy policy</a>
+        <a class="footer-link"
+           href="https://github.com/WilliamHoltsdalen/guesstheracetrack/issues/new">Report a bug</a>
+      </div>
+    </div>
+    <span class="row footer-divider"></span>
+    <div class="row footer-bottom justify-content-between">
+      <div class="col-auto">
+        <div class="footer-text">
+          ©<script>
+  document.write(new Date().getFullYear())
+</script>
+          Guess The Race Track
+        </div>
+      </div>
+      <div class="col-auto">
+        <span class="footer-text ">
+          Made by <a class="footer-link footer-author"
+    href="https://github.com/williamholtsdalen"
+    target="_blank">William Holtsdalen</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>

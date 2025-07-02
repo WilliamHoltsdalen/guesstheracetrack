@@ -326,5 +326,13 @@ SOCIALACCOUNT_ADAPTER = "guesstheracetrack.users.adapters.SocialAccountAdapter"
 SOCIALACCOUNT_FORMS = {"signup": "guesstheracetrack.users.forms.UserSocialSignupForm"}
 
 
-# Your stuff...
-# ------------------------------------------------------------------------------
+ASGI_APPLICATION = "guesstheracetrack.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}

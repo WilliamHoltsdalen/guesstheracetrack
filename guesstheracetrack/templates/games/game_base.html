@@ -1,0 +1,124 @@
+{% extends "../base.html" %}
+
+{% load static i18n %}
+
+{% block page_css %}
+  <link href="{% static 'css/game_base.css' %}" rel="stylesheet" />
+  {% block game_css %}
+  {% endblock game_css %}
+{% endblock page_css %}
+{% block content %}
+  <div class="container content-container overflow-scroll">
+    <div class="row mx-5 d-flex justify-content-center">
+      <div class="col-auto mt-4 quiz-card">
+        <div class="row d-flex justify-content-evenly">
+          {% for round, score in rounds.items %}
+            <div class="col-1 status-pill{% if round == current_round %} bg-primary pill-current {% elif score >= 1 %} bg-success {% elif score == -1 %} bg-danger {% else %} bg-secondary {% endif %}">
+              <i class="bi h4 {% if round == current_round %}{% elif score >= 1 %}bi-check{% elif score == -1 %}bi-x{% else %} {% endif %}"></i>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="row mt-4 d-flex justify-content-center">
+          {% block track_image %}
+          {% endblock track_image %}
+        </div>
+        <!-- Text below image & round info -->
+        <div class="row mt-4">
+          <div class="col">
+            <h2>Which track is this?</h2>
+          </div>
+          <div class="col-auto">
+            <h3>
+              <span class="badge rounded-pill text-bg-primary">Round {{ current_round }} / {{ number_of_rounds }}</span>
+            </h3>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <form id="track-choice-form" method="post">
+            {% csrf_token %}
+            <div class="col-auto track-choices">
+              {% for track in track_list %}
+                <label class="track-choice-label">
+                  <input type="radio"
+                         name="track"
+                         value="{{ track.pk }}"
+                         required
+                         onchange="submitForm()" />
+                  <div class="track-choice-content">{{ track.name }}</div>
+                </label>
+              {% endfor %}
+            </div>
+          </form>
+        </div>
+        <div class="row mt-3 d-flex justify-content-evenly">
+          <div class="col-auto">
+            <a data-bs-toggle="modal"
+               data-bs-target="#restartModal"
+               class="btn btn-outline-primary">Restart</a>
+          </div>
+          <div class="col-auto">
+            <a data-bs-toggle="modal"
+               data-bs-target="#quitModal"
+               class="btn btn-outline-danger">Quit</a>
+          </div>
+        </div>
+        <!-- Restart Modal -->
+        <div class="modal fade"
+             id="restartModal"
+             tabindex="-1"
+             aria-labelledby="restartModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="restartModalLabel">Do you want to restart?</h1>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+              <div class="modal-body">Restarting the game will delete all your previous answers and start a new session.</div>
+              <div class="modal-footer">
+                <a role="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                <a role="button" class="btn btn-primary" href="{{ game_restart_url }}">Restart</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Quit Modal -->
+        <div class="modal fade"
+             id="quitModal"
+             tabindex="-1"
+             aria-labelledby="quitModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="quitModalLabel">Do you want to quit?</h1>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Quitting the game will delete all your previous answers and redirect you to the home page.
+              </div>
+              <div class="modal-footer">
+                <a role="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
+                <a role="button" class="btn btn-danger" href="{{ game_quit_url }}">Quit</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function submitForm() {
+      const form = document.getElementById("track-choice-form");
+      form.submit();
+    }
+  </script>
+  {% block game_script %}
+  {% endblock game_script %}
+{% endblock content %}

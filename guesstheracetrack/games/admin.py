@@ -3,7 +3,6 @@ from django.utils.html import format_html
 
 from .models import GameSession
 from .models import GameSessionTrack
-from .models import Hint
 from .models import RaceTrack
 
 
@@ -29,6 +28,7 @@ class GameSessionAdmin(admin.ModelAdmin):
         "end_time",
         "score",
         "is_completed",
+        "game_type",
     )
     list_filter = ("user", "tracks", "is_completed")
     search_fields = ("user__username",)
@@ -44,15 +44,10 @@ class GameSessionTrackAdmin(admin.ModelAdmin):
         "incorrect_track_2",
         "score",
         "order",
+        "revealed_at",
+        "submitted_at",
+        "submitted_track",
     )
     list_filter = ("session", "correct_track")
     search_fields = ("session__user__username", "correct_track__name")
     ordering = ("session__start_time",)
-
-
-@admin.register(Hint)
-class HintAdmin(admin.ModelAdmin):
-    list_display = ("game_session", "image_segment", "revealed_at")
-    list_filter = ("game_session",)
-    search_fields = ("game_session__user__username",)
-    ordering = ("game_session__start_time",)

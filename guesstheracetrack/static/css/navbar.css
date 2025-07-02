@@ -1,0 +1,164 @@
+
+.sticky-nav-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+}
+
+.navbar {
+  background: #060c1899;
+  backdrop-filter: blur(8px);
+  width: 100%;
+  margin: 0 0 0 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.navbar-brand-name {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--owhite);
+}
+
+.nav-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-link {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  color: var(--owhite);
+}
+
+.login-btn-wrapper {
+  background: linear-gradient(90deg, var(--blue) 0%, var(--owhite) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  border-radius: 8px;
+}
+
+.login-btn {
+  background: var(--black);
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: var(--owhite);
+}
+
+.login-btn:hover {
+  color: var(--black);
+}
+
+.navbar-toggler {
+  border: none;
+  font-size: 1.5rem;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler-icon {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+@media only screen and (max-width: 460px) {
+  .navbar-brand-name {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .sticky-nav-div {
+    margin: 0;
+  }
+
+  .navbar {
+    padding: 12px 0;
+  }
+
+  .navbar-logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .navbar-brand-name {
+    display: none;
+  }
+
+}
+
+@media only screen and (min-width: 600px) {
+  .sticky-nav-div {
+    margin: 0;
+  }
+
+  .navbar {
+    padding: 12px 24px;
+  }
+
+  .navbar-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar-brand-name {
+    font-size: 1rem;
+  }
+
+}
+
+@media only screen and (min-width: 768px) {
+  .sticky-nav-div {
+    margin: 16px 24px 0 24px;
+  }
+
+  .navbar {
+    border-radius: 8px;
+  }
+
+  .navbar-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar-brand-name {
+    font-size: 1.25rem;
+    letter-spacing: 0.035rem;
+  }
+
+}
+
+@media only screen and (min-width: 992px) {
+  .navbar {
+    height: 75px;
+    padding: 12px 24px;
+    border-radius: 8px;
+  }
+
+  .navbar-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .navbar-brand-name {
+    font-size: 1.5rem;
+    letter-spacing: 0.035rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .navbar {
+    max-width: 1440px;
+  }
+}
