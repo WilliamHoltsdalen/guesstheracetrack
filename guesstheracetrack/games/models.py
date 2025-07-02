@@ -25,16 +25,6 @@ class GameSession(models.Model):
         null=True,
         blank=True,
     )
-    tracks = models.ManyToManyField(
-        RaceTrack,
-        through="GameSessionTrack",
-        through_fields=(
-            "session",
-            "correct_track",
-            "incorrect_track_1",
-            "incorrect_track_2",
-        ),
-    )
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
     score = models.IntegerField(default=0)

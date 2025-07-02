@@ -144,7 +144,7 @@ def handle_famous_tracks_submission(user, form) -> None:
     game_session_track.save()
 
     # Check if session is complete
-    if game_session_track.order == game_session.tracks.count() - 1:
+    if game_session_track.order == game_session.game_tracks.all().count() - 1:
         complete_session(user, "famous_tracks")
 
 
@@ -182,7 +182,7 @@ def handle_competitive_mode_submission(user, form) -> None:
     game_session_track.save()
 
     # Check if session is complete
-    if game_session_track.order == game_session.tracks.count() - 1:
+    if game_session_track.order == game_session.game_tracks.all().count() - 1:
         complete_session(user, "competitive_mode")
 
 

@@ -30,7 +30,7 @@ class GameSessionAdmin(admin.ModelAdmin):
         "is_completed",
         "game_type",
     )
-    list_filter = ("user", "tracks", "is_completed")
+    list_filter = ("user", "is_completed")
     search_fields = ("user__username",)
     ordering = ("-start_time",)
 

@@ -97,7 +97,7 @@ def session_complete(request, game_type: str) -> HttpResponse:
 
     rounds = {}
     total_score = 0
-    for track_round in range(game_session.tracks.count()):
+    for track_round in range(game_session.game_tracks.all().count()):
         game_session_track = GameSessionTrack.objects.filter(
             session=game_session,
             order=track_round,
@@ -171,7 +171,7 @@ def famous_tracks_display_context(request) -> dict:
         .filter(order=i)
         .first()
         .score
-        for i in range(game_session.tracks.count())
+        for i in range(game_session.game_tracks.all().count())
     }
 
     return {
@@ -179,7 +179,7 @@ def famous_tracks_display_context(request) -> dict:
         "correct_track_pk": game_session_track.correct_track.pk,
         "rounds": rounds,
         "current_round": game_session_track.order + 1,
-        "number_of_rounds": game_session.tracks.count(),
+        "number_of_rounds": game_session.game_tracks.all().count(),
         "game_restart_url": reverse("games:restart_famous_tracks_session"),
         "game_quit_url": reverse("games:famous_tracks_quit_session"),
     }
@@ -288,7 +288,7 @@ def competitive_mode_display_context(request):
         .filter(order=i)
         .first()
         .score
-        for i in range(game_session.tracks.count())
+        for i in range(game_session.game_tracks.all().count())
     }
 
     segments = competitive_mode_get_segments(request)
@@ -299,7 +299,7 @@ def competitive_mode_display_context(request):
         "correct_track_pk": game_session_track.correct_track.pk,
         "rounds": rounds,
         "current_round": game_session_track.order + 1,
-        "number_of_rounds": game_session.tracks.count(),
+        "number_of_rounds": game_session.game_tracks.all().count(),
         "i": count_root,
         "j": count_root,
         "game_restart_url": reverse("games:restart_competitive_mode_session"),
