@@ -37,7 +37,7 @@
       }
 
       // Create WebSocket connection
-      socket = new WebSocket('ws://' + window.location.host + '/ws/track_segments/');
+      socket = new WebSocket('wss://' + window.location.host + '/ws/track_segments/');
 
       socket.onopen = function(e) {
         console.log("Connection established");
