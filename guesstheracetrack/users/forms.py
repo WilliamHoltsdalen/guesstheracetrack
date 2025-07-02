@@ -40,7 +40,7 @@ class UserSignupForm(SignupForm):
         label=_("Name"),
         max_length=255,
         required=True,
-        widget=CharField.widget(attrs={"placeholder": _("Enter your name")}),
+        widget=TextInput(attrs={"placeholder": _("Enter your name")}),
     )
 
     def save(self, request):
