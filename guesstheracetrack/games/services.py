@@ -136,6 +136,7 @@ def handle_famous_tracks_submission(user, form) -> None:
     track_pk = uuid.UUID(form.cleaned_data["track"])
 
     # Update submitted track
+    game_session_track.submitted_at = timezone.now()
     game_session_track.submitted_track = RaceTrack.objects.get(pk=track_pk)
     game_session_track.save()
 
