@@ -107,6 +107,7 @@ def complete_session(user, game_type):
 
     game_session.score = total_score
     game_session.is_completed = True
+    game_session.end_time = timezone.now()
     game_session.save()
 
     score, _ = Score.objects.get_or_create(user=user)
