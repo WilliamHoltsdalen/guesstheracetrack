@@ -174,6 +174,9 @@ def famous_tracks_display_context(request) -> dict:
         for i in range(game_session.game_tracks.all().count())
     }
 
+    game_session_track.revealed_at = timezone.now()
+    game_session_track.save()
+
     return {
         "track_list": track_list,
         "correct_track_pk": game_session_track.correct_track.pk,
