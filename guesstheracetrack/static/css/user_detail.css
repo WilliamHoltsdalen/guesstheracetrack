@@ -7,5 +7,5 @@ p {
 }
 
 .achievement-icon {
-  color: #6c757d;
+  color: var(--blue);
 }

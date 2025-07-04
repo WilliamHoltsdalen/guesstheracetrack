@@ -16,41 +16,42 @@
       </div>
       <div class="col-sm-6 mt-2">
         <h2>{{ user.name }}</h2>
-        <a class="btn btn-secondary"
+        <a class="btn btn-outline-primary"
            href="{% url 'users:update' %}"
            role="button">Edit profile</a>
       </div>
     </div>
     <!-- User Achievements Section -->
     <div class="row mt-4 justify-content-center">
-      <div class="col-2">
+      <div class="col-md-2">
         <div class="card p-2">
-          <h2>
-            <i class="bi bi-check-circle-fill achievement-icon"></i> {{ games_played }}
+          <h2 class="d-flex align-items-center gap-2">
+            <i class="bi bi-check-circle achievement-icon"></i>
+            {{ games_played }}
           </h2>
           <p>Games played</p>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-md-2">
         <div class="card p-2">
-          <h2>
-            <i class="bi bi-flag-fill achievement-icon"></i> {{ tracks_guessed }}
+          <h2 class="d-flex align-items-center gap-2">
+            <i class="bi bi-flag achievement-icon"></i> {{ tracks_guessed }}
           </h2>
           <p>Tracks Guessed</p>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-md-2">
         <div class="card p-2">
-          <h2>
-            <i class="bi bi-trophy-fill achievement-icon"></i> {{ highest_score }}
+          <h2 class="d-flex align-items-center gap-2">
+            <i class="bi bi-trophy achievement-icon"></i> {{ highest_score }}
           </h2>
           <p>Best Score</p>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-md-2">
         <div class="card p-2">
-          <h2>
-            <i class="bi bi-clock-fill achievement-icon"></i> {{ avg_guess_time }}s
+          <h2 class="d-flex w-100 align-items-center gap-2">
+            <i class="bi bi-clock achievement-icon"></i> {{ avg_guess_time }}s
           </h2>
           <p>Avg. Guess Time</p>
         </div>
@@ -65,7 +66,7 @@
             {% if recent_games %}
               <ul class="list-group list-group-flush">
                 {% for game in recent_games %}
-                  <li class="list-group-item">
+                  <a href="#" class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
                       <strong>
                         {% if game.game_type == "famous_tracks" %}
@@ -77,7 +78,7 @@
                       <small class="text-muted">{{ game.end_time|date:"M d, Y H:i" }}</small>
                       <span class="badge bg-primary">{{ game.score }} points</span>
                     </div>
-                  </li>
+                  </a>
                 {% endfor %}
               </ul>
             {% else %}
@@ -102,7 +103,7 @@
                   <i class="bi bi-chevron-right"></i>
                 </div>
               </a>
-              <a href="{% url 'account_email' %}"
+              <a href="{% url 'account_change_password' %}"
                  class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                   Change password
