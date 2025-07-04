@@ -1,7 +1,10 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
+from django.shortcuts import redirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -118,3 +121,12 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Your account has been deleted.")
         return super().delete(request, *args, **kwargs)
+
+
+@login_required
+def reset_progress_view(request):
+    if request.method == "POST":
+        GameSession.objects.filter(user=request.user).delete()
+        messages.success(request, "Your game progress has been reset.")
+        return redirect("users:detail", pk=request.user.pk)
+    return render(request, "users/user_confirm_reset.html")
