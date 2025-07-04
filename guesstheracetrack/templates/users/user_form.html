@@ -1,28 +1,38 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}
   {{ user.name }}
 {% endblock title %}
 {% block content %}
-  <h1>{{ user.name }}</h1>
-  {% if user.profile_picture %}
-    <img src="{{ user.profile_picture.url }}"
-         alt="Profile Picture"
-         class="img-fluid rounded-circle mb-3"
-         style="max-width: 150px" />
-  {% endif %}
-  <form class="form-horizontal"
-        method="post"
-        action="{% url 'users:update' %}"
-        enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn btn-primary">Update</button>
+  <div class="container content-container p-5 overflow-scroll">
+    <div class="row justify-content-center">
+      <div class="col-sm-2">
+        <img class="img-fluid user-avatar rounded-circle"
+             src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'profile_pics/profile_picture.jpg' %}{% endif %}"
+             alt="User Image" />
+      </div>
+      <div class="col-sm-6 mt-5">
+        <h2>{{ user.name }}</h2>
       </div>
     </div>
-  </form>
+    <div class="row mt-4 justify-content-center">
+      <div class="col-md-8">
+        <form class="form-horizontal"
+              method="post"
+              action="{% url 'users:update' %}"
+              enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
