@@ -69,11 +69,10 @@
        id="dropdownUser{{ dropdown_id|default:'1' }}"
        data-bs-toggle="dropdown"
        aria-expanded="false">
-      <img src="https://github.com/williamholtsdalen.png"
-           alt=""
-           width="32"
-           height="32"
-           class="rounded-circle me-2" />
+      <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'profile_pics/profile_picture.jpg' %}{% endif %}"
+           alt="User Profile Picture"
+           width="40"
+           class="img-fluid rounded-circle me-2" />
       <strong>{{ user.name }}</strong>
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow"

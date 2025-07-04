@@ -24,6 +24,12 @@ class User(AbstractUser):
     last_name = None  # type: ignore[assignment]
     email = EmailField(_("email address"), unique=True)
     username = None  # type: ignore[assignment]
+    profile_picture = models.ImageField(
+        upload_to="profile_pics/",
+        blank=True,
+        null=True,
+        default="profile_pics/profile_picture.jpg",
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

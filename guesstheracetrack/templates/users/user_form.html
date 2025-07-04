@@ -7,9 +7,16 @@
 {% endblock title %}
 {% block content %}
   <h1>{{ user.name }}</h1>
+  {% if user.profile_picture %}
+    <img src="{{ user.profile_picture.url }}"
+         alt="Profile Picture"
+         class="img-fluid rounded-circle mb-3"
+         style="max-width: 150px" />
+  {% endif %}
   <form class="form-horizontal"
         method="post"
-        action="{% url 'users:update' %}">
+        action="{% url 'users:update' %}"
+        enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
     <div class="control-group">

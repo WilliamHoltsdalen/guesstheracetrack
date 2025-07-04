@@ -9,6 +9,7 @@ from django.views.generic import UpdateView
 
 from guesstheracetrack.games.models import GameSession
 from guesstheracetrack.games.models import GameSessionTrack
+from guesstheracetrack.users.forms import UserUpdateForm
 from guesstheracetrack.users.models import User
 
 
@@ -77,7 +78,8 @@ user_detail_view = UserDetailView.as_view()
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
-    fields = ["name"]
+    form_class = UserUpdateForm
+    template_name = "users/user_form.html"
     success_message = _("Information successfully updated")
 
     def get_success_url(self) -> str:

@@ -11,7 +11,7 @@
     <div class="row justify-content-center">
       <div class="col-sm-2">
         <img class="img-fluid user-avatar rounded-circle"
-             src="https://github.com/williamholtsdalen.png"
+             src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'profile_pics/profile_picture.jpg' %}{% endif %}"
              alt="User Image" />
       </div>
       <div class="col-sm-6 mt-2">
@@ -50,7 +50,7 @@
       </div>
       <div class="col-md-2">
         <div class="card p-2">
-          <h2 class="d-flex w-100 align-items-center gap-2">
+          <h2 class="d-flex align-items-center gap-2">
             <i class="bi bi-clock achievement-icon"></i> {{ avg_guess_time }}s
           </h2>
           <p>Avg. Guess Time</p>
