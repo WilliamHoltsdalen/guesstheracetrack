@@ -1,11 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import RedirectView
 from django.views.generic import UpdateView
+from django.views.generic.edit import DeleteView
 
 from guesstheracetrack.games.models import GameSession
 from guesstheracetrack.games.models import GameSessionTrack
@@ -102,3 +105,16 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = "users/user_confirm_delete.html"
+    success_url = reverse_lazy("account_logout")  # Log out after deletion
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Your account has been deleted.")
+        return super().delete(request, *args, **kwargs)
