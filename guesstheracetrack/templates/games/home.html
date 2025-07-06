@@ -6,14 +6,14 @@
   <link href="{% static 'css/home.css' %}" rel="stylesheet" />
 {% endblock page_css %}
 {% block content %}
-  <div class="container-fluid content-container">
-    <div class="row">
-      <div class="col m-5 mb-0">
+  <div class="container-fluid content-container overflow-scroll">
+    <div class="row m-5">
+      <div class="col">
         <h1>Available games</h1>
       </div>
     </div>
-    <div class="row m-5 d-flex justify-content-start">
-      <div class="col card-col me-5">
+    <div class="row m-5">
+      <div class="col-12 col-md-4 d-flex justify-content-start">
         <div class="card game-card">
           <img class="card-img-top"
                src="{% static 'images/racetracks/suzuka.jpg' %}"
@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="col card-col mx-5">
+      <div class="col-12 col-md-4 d-flex justify-content-start">
         <div class="card game-card">
           <img class="card-img-top"
                src="{% static 'images/racetracks/laguna_segmented.png' %}"
