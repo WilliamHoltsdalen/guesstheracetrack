@@ -60,6 +60,18 @@
     </a>
   </li>
 </ul>
+<ul class="nav nav-pills flex-column mt-auto">
+  <li class="nav-item">
+    <a href="{% url 'users:detail' request.user.pk %}"
+       aria-current="page"
+       class="nav-link {% if request.path|slice:'0:7' == '/users/' %}active{% endif %} {% if is_offcanvas %}offcanvas-nav-link{% endif %}">
+      <svg class="bi me-2" width="16" height="16">
+        <use xlink:href="#people-circle"></use>
+      </svg>
+      {% translate "My Profile" %}
+    </a>
+  </li>
+</ul>
 <hr />
 <!-- User section -->
 {% if request.user.is_authenticated %}
@@ -77,13 +89,6 @@
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
         aria-labelledby="dropdownUser{{ dropdown_id|default:'1' }}">
-      <li>
-        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
-           href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
-      </li>
-      <li>
-        <hr class="dropdown-divider" />
-      </li>
       <li>
         <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
            href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
