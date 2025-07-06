@@ -50,7 +50,8 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
         # Calculate average guess time for tracks
         suitable_tracks = tracks.filter(submitted_at__isnull=False)
-        if suitable_tracks.count() > 0:
+        track_count = suitable_tracks.count()
+        if track_count > 0:
             total_time = 0
             for track in suitable_tracks:
                 if track.revealed_at and track.submitted_at:
@@ -58,7 +59,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
                     if time_diff < 60:  # noqa: PLR2004
                         total_time += time_diff
 
-            avg_guess_time = round(total_time / suitable_tracks.count(), 2)
+            avg_guess_time = round(total_time / track_count, 2)
         else:
             avg_guess_time = 0
 
