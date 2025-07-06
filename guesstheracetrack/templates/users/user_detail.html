@@ -23,7 +23,7 @@
     </div>
     <!-- User Achievements Section -->
     <div class="row mt-4 justify-content-center">
-      <div class="col-md-2">
+      <div class="col-6 col-md-2 mb-4">
         <div class="card p-2">
           <h2 class="d-flex align-items-center gap-2">
             <i class="bi bi-check-circle achievement-icon"></i>
@@ -32,7 +32,7 @@
           <p>Games played</p>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-6 col-md-2 mb-4">
         <div class="card p-2">
           <h2 class="d-flex align-items-center gap-2">
             <i class="bi bi-flag achievement-icon"></i> {{ tracks_guessed }}
@@ -40,7 +40,7 @@
           <p>Tracks Guessed</p>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-6 col-md-2">
         <div class="card p-2">
           <h2 class="d-flex align-items-center gap-2">
             <i class="bi bi-trophy achievement-icon"></i> {{ highest_score }}
@@ -48,7 +48,7 @@
           <p>Best Score</p>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-6 col-md-2">
         <div class="card p-2">
           <h2 class="d-flex align-items-center gap-2">
             <i class="bi bi-clock achievement-icon"></i> {{ avg_guess_time }}s
@@ -59,7 +59,7 @@
     </div>
     <!-- Recent Games Section -->
     <div class="row mt-4 justify-content-center">
-      <div class="col-8">
+      <div class="col-12 col-md-8">
         <h2>Recent Games</h2>
         <div class="card">
           <div class="card-body">
@@ -67,7 +67,7 @@
               <ul class="list-group list-group-flush">
                 {% for game in recent_games %}
                   <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
                       <strong>
                         {% if game.game_type == "famous_tracks" %}
                           Famous Tracks
@@ -90,7 +90,7 @@
     </div>
     <!-- Account Settings Section -->
     <div class="row mt-4 justify-content-center">
-      <div class="col-8">
+      <div class="col-12 col-md-8">
         <h2>Account settings</h2>
         <div class="card">
           <div class="card-body">
@@ -124,7 +124,7 @@
     </div>
     <!-- Danger Zone Section -->
     <div class="row mt-4 justify-content-center">
-      <div class="col-8">
+      <div class="col-12 col-md-8">
         <h2>Danger Zone</h2>
         <div class="card">
           <div class="card-body">
