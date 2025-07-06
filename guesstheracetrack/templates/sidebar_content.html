@@ -79,14 +79,6 @@
         aria-labelledby="dropdownUser{{ dropdown_id|default:'1' }}">
       <li>
         <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
-           href="#">Invite a friend!</a>
-      </li>
-      <li>
-        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
-           href="#">Settings</a>
-      </li>
-      <li>
-        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
            href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
       </li>
       <li>
