@@ -18,6 +18,9 @@ from guesstheracetrack.games.models import GameSessionTrack
 from guesstheracetrack.users.forms import UserUpdateForm
 from guesstheracetrack.users.models import User
 
+# Maximum time (in seconds) for a guess to be considered valid for average calculation
+MAX_GUESS_TIME = 60
+
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
@@ -49,14 +52,17 @@ class UserDetailView(LoginRequiredMixin, DetailView):
         highest_score = highest_score_session.score if highest_score_session else 0
 
         # Calculate average guess time for tracks
-        suitable_tracks = tracks.filter(submitted_at__isnull=False)
+        suitable_tracks = tracks.filter(
+            submitted_at__isnull=False,
+            revealed_at__isnull=False,
+        )
         track_count = suitable_tracks.count()
         if track_count > 0:
             total_time = 0
             for track in suitable_tracks:
                 if track.revealed_at and track.submitted_at:
                     time_diff = (track.submitted_at - track.revealed_at).total_seconds()
-                    if time_diff < 60:  # noqa: PLR2004
+                    if time_diff < MAX_GUESS_TIME:
                         total_time += time_diff
 
             avg_guess_time = round(total_time / track_count, 2)
