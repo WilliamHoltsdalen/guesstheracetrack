@@ -66,7 +66,8 @@
             {% if recent_games %}
               <ul class="list-group list-group-flush">
                 {% for game in recent_games %}
-                  <a href="#" class="list-group-item list-group-item-action">
+                  <a href="{% url 'games:session_complete' pk=game.id %}"
+                     class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between align-items-center">
                       <strong>
                         {% if game.game_type == "famous_tracks" %}
