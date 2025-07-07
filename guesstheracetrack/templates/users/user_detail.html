@@ -8,7 +8,7 @@
 {% block content %}
   <div class="container content-container p-5 overflow-scroll">
     <!-- User Profile Section -->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-3">
       <div class="col-sm-2">
         <img class="img-fluid user-avatar rounded-circle"
              src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'profile_pics/profile_picture.jpg' %}{% endif %}"
@@ -60,7 +60,10 @@
     <!-- Recent Games Section -->
     <div class="row mt-4 justify-content-center">
       <div class="col-12 col-md-8">
-        <h2>Recent Games</h2>
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Recent Games</h2>
+          <a href="{% url 'users:game_history' %}" class="btn btn-outline-primary">View All</a>
+        </div>
         <div class="card">
           <div class="card-body">
             {% if recent_games %}

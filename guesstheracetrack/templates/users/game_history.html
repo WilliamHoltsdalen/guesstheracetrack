@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block page_css %}
+  <link href="{% static 'css/game_history.css' %}" rel="stylesheet" />
+{% endblock page_css %}
+{% block content %}
+  <div class="container content-container p-5 overflow-scroll">
+    <div class="row">
+      <div class="col">
+        <a href="{% url 'users:detail' request.user.pk %}"
+           class="btn btn-outline-primary">Back to My Profile</a>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col">
+        <div class="row">
+          <h1>Game History</h1>
+        </div>
+        <div class="row table-row mt-2">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Game Type</th>
+                <th scope="col">Date</th>
+                <th scope="col">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for entry in game_history %}
+                <tr class="clickable-row"
+                    data-href="{% url 'games:session_complete' pk=entry.id %}">
+                  <th scope="row">{{ entry.index }}</th>
+                  <td>{{ entry.game_type|default:"(no type)" }}</td>
+                  <td>{{ entry.end_time|date:"M d, Y H:i"|default:"(no date)" }}</td>
+                  <td>{{ entry.score|default:"(no score)" }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="4" class="text-center">No scores found on this page</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if page_obj.has_other_pages %}
+          <div class="row m-0 mt-3">
+            <div class="col d-flex justify-content-center">
+              <nav aria-label="Leaderboard pagination">
+                <ul class="pagination">
+                  {% if page_obj.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">‹‹</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?page={{ page_obj.previous_page_number }}"
+                         aria-label="Previous">
+                        <span aria-hidden="true">‹</span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">‹‹</span>
+                    </li>
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">‹</span>
+                    </li>
+                  {% endif %}
+                  {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                      <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                      </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                  {% if page_obj.has_next %}
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?page={{ page_obj.next_page_number }}"
+                         aria-label="Next">
+                        <span aria-hidden="true">›</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?page={{ page_obj.paginator.num_pages }}"
+                         aria-label="Last">
+                        <span aria-hidden="true">››</span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">›</span>
+                    </li>
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">››</span>
+                    </li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="row m-0">
+            <div class="col text-center">
+              <small class="text-muted">
+                Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} games
+              </small>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".clickable-row").forEach(function(row) {
+        row.addEventListener("click", function() {
+          window.location = this.dataset.href;
+        });
+      });
+    });
+  </script>
+{% endblock content %}
