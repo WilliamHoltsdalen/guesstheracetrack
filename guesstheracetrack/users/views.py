@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -138,3 +139,48 @@ def reset_progress_view(request):
         messages.success(request, "Your game progress has been reset.")
         return redirect("users:detail", pk=request.user.pk)
     return render(request, "users/user_confirm_reset.html")
+
+
+@login_required
+def game_history_view(request):
+    games = GameSession.objects.filter(user=request.user, is_completed=True).order_by(
+        "-start_time",
+    )
+    paginator = Paginator(games, 10)  # Show 10 scores per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    game_history = populate_game_history(page_obj.object_list, page_obj)
+
+    context = {
+        "game_history": game_history,
+        "page_obj": page_obj,
+    }
+
+    return render(request, "users/game_history.html", context)
+
+
+def populate_game_history(games, page_obj=None) -> list:
+    game_history = []
+    # Calculate the starting index based on the current page
+    start_index = 1
+    if page_obj and page_obj.number > 1:
+        start_index = (page_obj.number - 1) * page_obj.paginator.per_page + 1
+
+    for index, game in enumerate(games):
+        game_type = game.game_type
+        if game_type == "famous_tracks":
+            game_type = "Famous Tracks"
+        elif game_type == "competitive_mode":
+            game_type = "Competitive Mode"
+
+        game_history.append(
+            {
+                "index": start_index + index,
+                "id": game.id,
+                "game_type": game_type,
+                "end_time": game.end_time,
+                "score": game.score,
+            },
+        )
+    return game_history
