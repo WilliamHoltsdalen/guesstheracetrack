@@ -1,5 +1,6 @@
 import json
 import math
+import uuid
 from random import shuffle
 
 from django.contrib.auth.decorators import login_required
@@ -78,19 +79,13 @@ def famous_tracks(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
-def session_complete(request, game_type: str) -> HttpResponse:
+def session_complete(request, pk: uuid.UUID) -> HttpResponse:
     """This view is called when a round is complete. It will show a complete
     round overview with results."""
 
     # Get the game session
-    game_session = (
-        GameSession.objects.filter(
-            user=request.user,
-            is_completed=True,
-            game_type=game_type,
-        )
-        .order_by("-start_time")
-        .first()
+    game_session = GameSession.objects.get(
+        id=pk,
     )
     if not game_session:
         return redirect("games:home")
@@ -194,9 +189,10 @@ def famous_tracks_handle_track_submission(request) -> HttpResponse:
     form = TrackChoiceForm(request.POST)
     assert form.is_valid()
 
+    game_session = get_active_game_session(request.user, "famous_tracks")
     handle_famous_tracks_submission(request.user, form)
-    if is_session_complete(request.user, "famous_tracks"):
-        return redirect("games:session_complete", game_type="famous_tracks")
+    if is_session_complete(request.user, game_session.id):
+        return redirect("games:session_complete", pk=game_session.id)
     return redirect("games:famous_tracks")
 
 
@@ -263,10 +259,10 @@ def competitive_mode_handle_track_submission(request):
     form = TrackChoiceForm(request.POST)
     assert form.is_valid()
 
+    game_session = get_active_game_session(request.user, "competitive_mode")
     handle_competitive_mode_submission(request.user, form)
-
-    if is_session_complete(request.user, "competitive_mode"):
-        return redirect("games:session_complete", game_type="competitive_mode")
+    if is_session_complete(request.user, game_session.id):
+        return redirect("games:session_complete", pk=game_session.id)
 
     return redirect("games:competitive_mode")
 
