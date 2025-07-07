@@ -56,14 +56,15 @@ class UserDetailView(LoginRequiredMixin, DetailView):
             submitted_at__isnull=False,
             revealed_at__isnull=False,
         )
-        track_count = suitable_tracks.count()
-        if track_count > 0:
+        if suitable_tracks.count():
+            track_count = 0
             total_time = 0
             for track in suitable_tracks:
                 if track.revealed_at and track.submitted_at:
                     time_diff = (track.submitted_at - track.revealed_at).total_seconds()
                     if time_diff < MAX_GUESS_TIME:
                         total_time += time_diff
+                        track_count += 1
 
             avg_guess_time = round(total_time / track_count, 2)
         else:
