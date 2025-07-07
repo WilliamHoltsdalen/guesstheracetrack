@@ -115,13 +115,13 @@ def complete_session(user, game_type):
     score.save()
 
 
-def is_session_complete(user, game_type) -> bool:
+def is_session_complete(user, pk: uuid.UUID) -> bool:
     """Check if a game session is complete."""
-    game_session = (
-        GameSession.objects.filter(user=user, game_type=game_type)
-        .order_by("-start_time")
-        .first()
-    )
+    try:
+        game_session = GameSession.objects.get(user=user, id=pk)
+    except GameSession.DoesNotExist:
+        return False
+
     return game_session.is_completed
 
 
