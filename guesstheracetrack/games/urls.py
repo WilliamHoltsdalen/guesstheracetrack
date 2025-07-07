@@ -20,7 +20,7 @@ urlpatterns = [
         name="start_session",
     ),
     path(
-        "session_complete/<str:pk>/",
+        "session_complete/<uuid:pk>/",
         view=session_complete,
         name="session_complete",
     ),

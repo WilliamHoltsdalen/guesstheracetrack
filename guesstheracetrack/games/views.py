@@ -85,6 +85,7 @@ def session_complete(request, pk: uuid.UUID) -> HttpResponse:
 
     # Get the game session
     game_session = GameSession.objects.get(
+        user=request.user,
         id=pk,
     )
     if not game_session:
