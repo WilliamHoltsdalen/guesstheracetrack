@@ -84,11 +84,12 @@ def session_complete(request, pk: uuid.UUID) -> HttpResponse:
     round overview with results."""
 
     # Get the game session
-    game_session = GameSession.objects.get(
-        user=request.user,
-        id=pk,
-    )
-    if not game_session:
+    try:
+        game_session = GameSession.objects.get(
+            user=request.user,
+            id=pk,
+        )
+    except GameSession.DoesNotExist:
         return redirect("games:home")
 
     rounds = {}

@@ -117,7 +117,11 @@ def complete_session(user, game_type):
 
 def is_session_complete(user, pk: uuid.UUID) -> bool:
     """Check if a game session is complete."""
-    game_session = GameSession.objects.get(id=pk, user=user)
+    try:
+        game_session = GameSession.objects.get(user=user, id=pk)
+    except GameSession.DoesNotExist:
+        return False
+
     return game_session.is_completed
 
 
