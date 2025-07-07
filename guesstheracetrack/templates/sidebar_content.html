@@ -60,6 +60,18 @@
     </a>
   </li>
 </ul>
+<ul class="nav nav-pills flex-column mt-auto">
+  <li class="nav-item">
+    <a href="{% url 'users:detail' request.user.pk %}"
+       aria-current="page"
+       class="nav-link {% if request.path|slice:'0:7' == '/users/' %}active{% endif %} {% if is_offcanvas %}offcanvas-nav-link{% endif %}">
+      <svg class="bi me-2" width="16" height="16">
+        <use xlink:href="#people-circle"></use>
+      </svg>
+      {% translate "My Profile" %}
+    </a>
+  </li>
+</ul>
 <hr />
 <!-- User section -->
 {% if request.user.is_authenticated %}
@@ -69,30 +81,14 @@
        id="dropdownUser{{ dropdown_id|default:'1' }}"
        data-bs-toggle="dropdown"
        aria-expanded="false">
-      <img src="https://github.com/williamholtsdalen.png"
-           alt=""
-           width="32"
-           height="32"
-           class="rounded-circle me-2" />
+      <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'profile_pics/profile_picture.jpg' %}{% endif %}"
+           alt="User Profile Picture"
+           width="40"
+           class="img-fluid rounded-circle me-2" />
       <strong>{{ user.name }}</strong>
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow"
         aria-labelledby="dropdownUser{{ dropdown_id|default:'1' }}">
-      <li>
-        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
-           href="#">Invite a friend!</a>
-      </li>
-      <li>
-        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
-           href="#">Settings</a>
-      </li>
-      <li>
-        <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
-           href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
-      </li>
-      <li>
-        <hr class="dropdown-divider" />
-      </li>
       <li>
         <a class="dropdown-item {% if is_offcanvas %}offcanvas-nav-link{% endif %}"
            href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>

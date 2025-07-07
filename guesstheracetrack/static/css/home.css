@@ -1,9 +1,14 @@
-.card-col {
-  max-width: 18rem;
+.game-card {
+  width: 18rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
 }
 
-.game-card {
-  width: 18rem; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+@media (max-width: 991.98px) {
+  .game-card {
+    width: 100%;
+    max-width: 18rem;
+  }
 }
 
 .highlighted-word {

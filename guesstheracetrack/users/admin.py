@@ -2,6 +2,7 @@ from allauth.account.decorators import secure_admin_login
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from .forms import UserAdminChangeForm
@@ -21,7 +22,7 @@ class UserAdmin(auth_admin.UserAdmin):
     add_form = UserAdminCreationForm
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        (_("Personal info"), {"fields": ("name",)}),
+        (_("Personal info"), {"fields": ("name", "profile_picture")}),
         (
             _("Permissions"),
             {
@@ -36,7 +37,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["email", "name", "is_superuser"]
+    list_display = ["email", "name", "is_superuser", "profile_picture_thumb"]
     search_fields = ["name"]
     ordering = ["id"]
     add_fieldsets = (
@@ -48,3 +49,17 @@ class UserAdmin(auth_admin.UserAdmin):
             },
         ),
     )
+
+    @admin.display(
+        description="Profile Picture",
+    )
+    def profile_picture_thumb(self, obj):
+        if obj.profile_picture:
+            return format_html(
+                (
+                    '<img src="{}" style="width: 40px; height: 40px; '
+                    'border-radius: 50%;" />'
+                ),
+                obj.profile_picture.url,
+            )
+        return "-"
