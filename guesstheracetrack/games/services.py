@@ -107,6 +107,7 @@ def complete_session(user, game_type):
 
     game_session.score = total_score
     game_session.is_completed = True
+    game_session.end_time = timezone.now()
     game_session.save()
 
     score, _ = Score.objects.get_or_create(user=user)
@@ -114,13 +115,13 @@ def complete_session(user, game_type):
     score.save()
 
 
-def is_session_complete(user, game_type) -> bool:
+def is_session_complete(user, pk: uuid.UUID) -> bool:
     """Check if a game session is complete."""
-    game_session = (
-        GameSession.objects.filter(user=user, game_type=game_type)
-        .order_by("-start_time")
-        .first()
-    )
+    try:
+        game_session = GameSession.objects.get(user=user, id=pk)
+    except GameSession.DoesNotExist:
+        return False
+
     return game_session.is_completed
 
 
@@ -135,6 +136,7 @@ def handle_famous_tracks_submission(user, form) -> None:
     track_pk = uuid.UUID(form.cleaned_data["track"])
 
     # Update submitted track
+    game_session_track.submitted_at = timezone.now()
     game_session_track.submitted_track = RaceTrack.objects.get(pk=track_pk)
     game_session_track.save()
 

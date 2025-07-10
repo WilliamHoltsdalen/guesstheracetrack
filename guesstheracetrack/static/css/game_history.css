@@ -1,0 +1,40 @@
+@media (min-width: 576px) {
+  .content-container {
+    background: var(--owhite);
+    height: 100%;
+    padding: 50px 100px 0;
+    color: var(--black);
+  }
+}
+
+@media (min-width: 1200px) {
+  .content-container {
+    background: var(--owhite);
+    height: 100%;
+    padding: 100px 150px 0;
+    color: var(--black);
+  }
+}
+
+@media (min-width: 1400px) {
+  .content-container {
+    background: var(--owhite);
+    height: 100%;
+    padding: 100px 200px 0;
+    color: var(--black);
+  }
+}
+
+.table-row {
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+.clickable-row:hover {
+  background-color: #f5f5f5;
+}

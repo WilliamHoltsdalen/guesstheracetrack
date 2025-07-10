@@ -11,25 +11,22 @@
           <span class="navbar-brand-name my-auto">Guess The Race Track</span>
         </div>
       </a>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
-          <li class="nav-item">
-            <a href="#" class="me-lg-3 nav-link">Blog</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="me-lg-3 nav-link text-nowrap">Contact us</a>
-          </li>
-          <li class="nav-item">
-            <a href="{% url 'scores:leaderboard' %}" class="me-lg-3 nav-link">Leaderboard</a>
-          </li>
-        </ul>
-      </div>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center d-none d-lg-flex">
+        <li class="nav-item">
+          <a href="#" class="me-lg-3 nav-link">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="me-lg-3 nav-link text-nowrap">Contact us</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'scores:leaderboard' %}" class="me-lg-3 nav-link">Leaderboard</a>
+        </li>
+      </ul>
       <button class="navbar-toggler ms-auto"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#mobileNav"
+              aria-controls="mobileNav"
               aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -40,4 +37,33 @@
       </div>
     </div>
   </nav>
+</div>
+<!-- Offcanvas Menu for Mobile -->
+<div class="offcanvas offcanvas-end bg-dark text-white"
+     tabindex="-1"
+     id="mobileNav"
+     aria-labelledby="mobileNavLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="mobileNavLabel">Menu</h5>
+    <button type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-white" href="#">Blog</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="#">Contact us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'scores:leaderboard' %}">Leaderboard</a>
+      </li>
+      <li class="nav-item mt-3">
+        <a href="{% url 'games:home' %}" class="btn btn-primary w-100">Login</a>
+      </li>
+    </ul>
+  </div>
 </div>
